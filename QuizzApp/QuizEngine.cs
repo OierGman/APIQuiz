@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 
 namespace QuizzApp
 {
@@ -11,6 +6,7 @@ namespace QuizzApp
     {
         static readonly HttpClient client = new HttpClient();
         public static List<Questions.Result> roots = new List<Questions.Result>();
+        public static List<Questions.TriviaCategory> CategoriesList = new List<Questions.TriviaCategory>();
 
         public static async Task Main()
         {
@@ -27,8 +23,6 @@ namespace QuizzApp
                 foreach (var x in myDeserializedClass.results)
                 {
                     roots.Add(x);
-                    Console.WriteLine(x.question);
-                    Console.WriteLine(x.correct_answer);
                 }
             }
             catch (HttpRequestException e)
@@ -37,6 +31,17 @@ namespace QuizzApp
                 Console.WriteLine("Message :{0} ", e.Message);
             }
         }
-        
+        public static async Task GetCategoriesTask()
+        {
+            // Call asynchronous network methods in a try/catch block to handle exceptions.
+
+            string responseBody = await client.GetStringAsync("https://opentdb.com/api_category.php");
+            Questions.Root myDeserializedClass = JsonSerializer.Deserialize<Questions.Root>(responseBody);
+            foreach (var x in myDeserializedClass.trivia_categories)
+            {
+                CategoriesList.Add(x);
+            }
+        }
+
     }
 }

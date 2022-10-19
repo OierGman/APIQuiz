@@ -32,20 +32,20 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.quizLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.categoriesLabel = new System.Windows.Forms.Label();
             this.categoriesCheckedListBox = new System.Windows.Forms.CheckedListBox();
-            this.quizLabel = new System.Windows.Forms.Label();
+            this.categoriesLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -71,6 +71,7 @@
             this.button2.TabIndex = 1;
             this.button2.Text = "Two Player";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -97,25 +98,17 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(515, 523);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
-            // label1
+            // quizLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 93);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(251, 36);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Difficulty";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(3, 399);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(251, 23);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Miscellanous Effects";
+            this.quizLabel.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.quizLabel, 3);
+            this.quizLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.quizLabel.Location = new System.Drawing.Point(3, 0);
+            this.quizLabel.Name = "quizLabel";
+            this.quizLabel.Size = new System.Drawing.Size(509, 93);
+            this.quizLabel.TabIndex = 9;
+            this.quizLabel.Text = "Quiz Builder!";
+            this.quizLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel3
             // 
@@ -163,35 +156,44 @@
             this.checkBox6.Text = "Timed Events";
             this.checkBox6.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // categoriesCheckedListBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(3, 3);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(60, 24);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "Easy";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.categoriesCheckedListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.categoriesCheckedListBox.FormattingEnabled = true;
+            this.categoriesCheckedListBox.Location = new System.Drawing.Point(260, 132);
+            this.categoriesCheckedListBox.Name = "categoriesCheckedListBox";
+            this.categoriesCheckedListBox.Size = new System.Drawing.Size(252, 264);
+            this.categoriesCheckedListBox.TabIndex = 1;
             // 
-            // checkBox2
+            // categoriesLabel
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(3, 34);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(86, 24);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Medium";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.categoriesLabel.AutoSize = true;
+            this.categoriesLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.categoriesLabel.Location = new System.Drawing.Point(260, 93);
+            this.categoriesLabel.Name = "categoriesLabel";
+            this.categoriesLabel.Size = new System.Drawing.Size(252, 36);
+            this.categoriesLabel.TabIndex = 2;
+            this.categoriesLabel.Text = "Categories";
             // 
-            // checkBox3
+            // label1
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(3, 65);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(64, 24);
-            this.checkBox3.TabIndex = 2;
-            this.checkBox3.Text = "Hard";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Location = new System.Drawing.Point(3, 93);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(251, 36);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Difficulty";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label3.Location = new System.Drawing.Point(260, 399);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(252, 23);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Difficulty";
             // 
             // tableLayoutPanel2
             // 
@@ -209,46 +211,45 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(159, 95);
             this.tableLayoutPanel2.TabIndex = 6;
             // 
-            // label3
+            // checkBox3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(260, 399);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(252, 23);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Difficulty";
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(3, 65);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(64, 24);
+            this.checkBox3.TabIndex = 2;
+            this.checkBox3.Text = "Hard";
+            this.checkBox3.UseVisualStyleBackColor = true;
             // 
-            // categoriesLabel
+            // checkBox2
             // 
-            this.categoriesLabel.AutoSize = true;
-            this.categoriesLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.categoriesLabel.Location = new System.Drawing.Point(260, 93);
-            this.categoriesLabel.Name = "categoriesLabel";
-            this.categoriesLabel.Size = new System.Drawing.Size(252, 36);
-            this.categoriesLabel.TabIndex = 2;
-            this.categoriesLabel.Text = "Categories";
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(3, 34);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(86, 24);
+            this.checkBox2.TabIndex = 1;
+            this.checkBox2.Text = "Medium";
+            this.checkBox2.UseVisualStyleBackColor = true;
             // 
-            // categoriesCheckedListBox
+            // checkBox1
             // 
-            this.categoriesCheckedListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.categoriesCheckedListBox.FormattingEnabled = true;
-            this.categoriesCheckedListBox.Location = new System.Drawing.Point(260, 132);
-            this.categoriesCheckedListBox.Name = "categoriesCheckedListBox";
-            this.categoriesCheckedListBox.Size = new System.Drawing.Size(252, 264);
-            this.categoriesCheckedListBox.TabIndex = 1;
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(3, 3);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(60, 24);
+            this.checkBox1.TabIndex = 0;
+            this.checkBox1.Text = "Easy";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // quizLabel
+            // label5
             // 
-            this.quizLabel.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.quizLabel, 3);
-            this.quizLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.quizLabel.Location = new System.Drawing.Point(3, 0);
-            this.quizLabel.Name = "quizLabel";
-            this.quizLabel.Size = new System.Drawing.Size(509, 93);
-            this.quizLabel.TabIndex = 9;
-            this.quizLabel.Text = "Quiz Builder!";
-            this.quizLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label5.Location = new System.Drawing.Point(3, 399);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(251, 23);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Miscellanous Effects";
             // 
             // Form1
             // 

@@ -1,4 +1,3 @@
-using System.Text.Json;
 using System.Runtime.InteropServices;
 
 namespace QuizzApp
@@ -15,6 +14,11 @@ namespace QuizzApp
             InitializeComponent();
             _ = QuizEngine.Main();
         }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            CreateLabel();
+            var yeetTask = QuizEngine.GetCategoriesTask();
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -23,10 +27,20 @@ namespace QuizzApp
             GUI();
             question.Text = QuizEngine.roots[0].question.ToString();
         }
-
-        private void Form1_Load(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-            CreateLabel();
+
+            QuizBuilder();
+        }
+
+        private void QuizBuilder()
+        {
+            // categories
+            foreach (var x in QuizEngine.CategoriesList)
+            {
+                categoriesCheckedListBox.Items.Add(x.name);
+            }
+            // difficulties
         }
 
         private void CreateLabel()
@@ -111,9 +125,11 @@ namespace QuizzApp
         }
 
 
-        // console for testing
+        //console for testing
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
+
+
     }
 }
