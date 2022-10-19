@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuizzApp
 {
-    internal class Questions
+    public class Questions
     {
         public class Result
         {

@@ -10,6 +10,7 @@ namespace QuizzApp
     public class QuizEngine
     {
         static readonly HttpClient client = new HttpClient();
+        public static List<Questions.Result> roots = new List<Questions.Result>();
 
         public static async Task Main()
         {
@@ -17,13 +18,18 @@ namespace QuizzApp
             try
             {
                 client.BaseAddress = new Uri("https://opentdb.com/");
-                HttpResponseMessage response = await client.GetAsync("api.php?amount=10&category=9&difficulty=easy");
+                HttpResponseMessage response = await client.GetAsync("api.php?amount=10&difficulty=easy&type=boolean");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 // Above three lines can be replaced with new helper method below
                 // string responseBody = await client.GetStringAsync(uri);
                 Questions.Root myDeserializedClass = JsonSerializer.Deserialize<Questions.Root>(responseBody);
-                MessageBox.Show(myDeserializedClass.results.ToString());
+                foreach (var x in myDeserializedClass.results)
+                {
+                    roots.Add(x);
+                    Console.WriteLine(x.question);
+                    Console.WriteLine(x.correct_answer);
+                }
             }
             catch (HttpRequestException e)
             {
@@ -31,5 +37,6 @@ namespace QuizzApp
                 Console.WriteLine("Message :{0} ", e.Message);
             }
         }
+        
     }
 }
