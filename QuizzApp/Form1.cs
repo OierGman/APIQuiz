@@ -41,16 +41,6 @@ namespace QuizzApp
 
             QuizBuilder();
         }
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-            QuizBuilder();
-        }
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-            QuizBuilder();
-        }
 
         private void QuizBuilder()
         {
