@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 
 namespace QuizzApp
 {
     public class QuizEngine
     {
-        static readonly HttpClient client = new HttpClient();
         public static List<Questions.Result> roots = new List<Questions.Result>();
+        public static List<Questions.TriviaCategory> CategoriesList = new List<Questions.TriviaCategory>();
 
         public static async Task Main()
         {
             // Call asynchronous network methods in a try/catch block to handle exceptions.
             try
             {
+                HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri("https://opentdb.com/");
                 HttpResponseMessage response = await client.GetAsync("api.php?amount=10&difficulty=easy");
                 response.EnsureSuccessStatusCode();
@@ -40,6 +36,30 @@ namespace QuizzApp
                 Console.WriteLine("Message :{0} ", e.Message);
             }
         }
-        
+
+        public static async Task GetCategoriesTask() // background worker/await msdn
+        {
+            // Call asynchronous network methods in a try/catch block to handle exceptions.
+            HttpClient client = new HttpClient();
+            string responseBody = await client.GetStringAsync("https://opentdb.com/api_category.php");
+            Questions.Root myDeserializedClass = JsonSerializer.Deserialize<Questions.Root>(responseBody);
+            foreach (var x in myDeserializedClass.trivia_categories)
+            {
+                CategoriesList.Add(x);
+            }
+        }
+
+        public static async Task GetQuizTask(string quizzSeed)
+        {
+            // Call asynchronous network methods in a try/catch block to handle exceptions.
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://opentdb.com/");
+            string responseBody = await client.GetStringAsync(quizzSeed);
+            Questions.Root myDeserializedClass = JsonSerializer.Deserialize<Questions.Root>(responseBody);
+            foreach (var x in myDeserializedClass.trivia_categories)
+            {
+                CategoriesList.Add(x);
+            }
+        }
     }
 }

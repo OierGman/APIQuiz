@@ -1,4 +1,4 @@
-using System.Text.Json;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Web;
 
@@ -16,20 +16,50 @@ namespace QuizzApp
         {
             AllocConsole();
             InitializeComponent();
-            _ = QuizEngine.Main();
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Controls.Clear();
-            GUI(counter);
-            //HttpUtility.HtmlDecode(QuizEngine.roots[0].question.ToString(), writer);
-            //question.Text = writer.ToString();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
             CreateLabel();
+            // task to get categories.
+            var categoriesTask = QuizEngine.GetCategoriesTask();
+            // await for tasks to complete.
+            await Task.WhenAll(categoriesTask);
+            QuizBuilder();
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            Controls.Remove(button1);
+            Controls.Remove(button2);
+            var quizzPlay = QuizEngine.Main();
+            await Task.WhenAll(quizzPlay);
+            GUI(counter);
+            
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            QuizBuilder();
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            QuizBuilder();
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            QuizBuilder();
+        }
+
+        private void QuizBuilder()
+        {
+            // categories added to list box
+            foreach (var x in QuizEngine.CategoriesList)
+            {
+                categoriesCheckedListBox.Items.Add(x.name);
+            }
+            // difficulties
             AnswerButton();
         }
 
@@ -210,5 +240,7 @@ namespace QuizzApp
             [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
+
+
     }
 }
