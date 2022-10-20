@@ -7,9 +7,10 @@ namespace QuizzApp
     public partial class Form1 : Form
     {
         Label question;
-        Button answer;
         int counter = 0;
+        int Score = 0;
         StringWriter writer = new StringWriter();   
+        PictureBox pictureBox1 = new PictureBox();
 
 
         public Form1()
@@ -34,11 +35,9 @@ namespace QuizzApp
             var quizzPlay = QuizEngine.Main();
             await Task.WhenAll(quizzPlay);
             GUI(counter);
-            
         }
         private void button2_Click(object sender, EventArgs e)
         {
-
             QuizBuilder();
         }
 
@@ -50,7 +49,6 @@ namespace QuizzApp
                 categoriesCheckedListBox.Items.Add(x.name);
             }
             // difficulties
-            AnswerButton();
         }
 
         private void CreateLabel()
@@ -66,19 +64,12 @@ namespace QuizzApp
             };
         }
 
-        private void AnswerButton()
+        private void Timer(int difficulty)
         {
-            answer = new Button()
-            {
-                Text = "",
-                TextAlign = ContentAlignment.MiddleCenter,
-                Dock = DockStyle.Fill,
-                FlatStyle = FlatStyle.Flat,
-                BackColor = Color.Coral,
-                FlatAppearance =
-                    { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
-            };
+            int size = 100;
+
         }
+
         public void GUI(int counter)
         {
             this.Controls.Clear();
@@ -95,9 +86,11 @@ namespace QuizzApp
             this.Controls.Add(QuizContainer);
             QuizContainer.Dock = DockStyle.Fill;
 
-            QuizContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            QuizContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
+            QuizContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 45F));
             QuizContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
 
+            QuizContainer.Controls.Add(pictureBox1);
             QuizContainer.Controls.Add(question);
 
             TableLayoutPanel AnsContainer = new TableLayoutPanel()
@@ -206,6 +199,22 @@ namespace QuizzApp
             incorrect.BackColor = Color.Coral;
             this.Controls.Add(incorrect);
         }
+        public void Result()
+        {
+            TableLayoutPanel result = new TableLayoutPanel()
+            {
+                RowCount = 2,
+                Dock = DockStyle.Fill,
+                BackColor = Color.WhiteSmoke
+            };
+
+            result.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            result.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+
+            result.Controls.Add(
+                new Label() { Text = "Your Score: " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
+            this.Controls.Add(result);
+        }
         private void button_Click(object sender, EventArgs e)
         {
             if (((Button)sender).Text == QuizEngine.roots[counter].correct_answer)
@@ -213,6 +222,21 @@ namespace QuizzApp
                 this.Controls.Clear();
                 Correct();
                 System.Threading.Thread.Sleep(1000);
+                switch (QuizEngine.roots[counter].difficulty)
+                {
+                    case "easy":
+                        Score++;
+                        break;
+                    case "medium":
+                        Score += 2;
+                        break;
+                    case "hard":
+                        Score += 3;
+                        break;
+                    default:
+                        Score++;
+                        break;
+                }
                 counter++;
             }
             else
@@ -223,7 +247,15 @@ namespace QuizzApp
                 counter++;
             }
 
-            GUI(counter);
+            if (counter == QuizEngine.roots.Count)
+            {
+                this.Controls.Clear();
+                Result();
+            }
+            else
+            {
+                GUI(counter);
+            }
         }
 
             // console for testing
