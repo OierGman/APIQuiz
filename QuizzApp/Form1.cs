@@ -13,20 +13,25 @@ namespace QuizzApp
         {
             AllocConsole();
             InitializeComponent();
-            _ = QuizEngine.Main();
         }
-        private void Form1_Load(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
             CreateLabel();
+            // task to get categories.
             var categoriesTask = QuizEngine.GetCategoriesTask();
+            // await for tasks to complete.
+            await Task.WhenAll(categoriesTask);
+            QuizBuilder();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
             Controls.Remove(button1);
             Controls.Remove(button2);
             GUI();
-            question.Text = QuizEngine.roots[0].question.ToString();
+            var quizzPlay = QuizEngine.Main();
+            await Task.WhenAll(quizzPlay);
+            question.Text = QuizEngine.roots[0].question;
         }
         private void button2_Click(object sender, EventArgs e)
         {
@@ -36,7 +41,7 @@ namespace QuizzApp
 
         private void QuizBuilder()
         {
-            // categories
+            // categories added to list box
             foreach (var x in QuizEngine.CategoriesList)
             {
                 categoriesCheckedListBox.Items.Add(x.name);

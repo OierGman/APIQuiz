@@ -4,7 +4,6 @@ namespace QuizzApp
 {
     public class QuizEngine
     {
-        static readonly HttpClient client = new HttpClient();
         public static List<Questions.Result> roots = new List<Questions.Result>();
         public static List<Questions.TriviaCategory> CategoriesList = new List<Questions.TriviaCategory>();
 
@@ -13,8 +12,9 @@ namespace QuizzApp
             // Call asynchronous network methods in a try/catch block to handle exceptions.
             try
             {
+                HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri("https://opentdb.com/");
-                HttpResponseMessage response = await client.GetAsync("api.php?");
+                HttpResponseMessage response = await client.GetAsync("api.php?amount=10");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 // Above three lines can be replaced with new helper method below
@@ -32,10 +32,10 @@ namespace QuizzApp
             }
         }
 
-        public static async Task GetCategoriesTask()
+        public static async Task GetCategoriesTask() // background worker/await msdn
         {
             // Call asynchronous network methods in a try/catch block to handle exceptions.
-
+            HttpClient client = new HttpClient();
             string responseBody = await client.GetStringAsync("https://opentdb.com/api_category.php");
             Questions.Root myDeserializedClass = JsonSerializer.Deserialize<Questions.Root>(responseBody);
             foreach (var x in myDeserializedClass.trivia_categories)
@@ -47,6 +47,7 @@ namespace QuizzApp
         public static async Task GetQuizTask(string quizzSeed)
         {
             // Call asynchronous network methods in a try/catch block to handle exceptions.
+            HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://opentdb.com/");
             string responseBody = await client.GetStringAsync(quizzSeed);
             Questions.Root myDeserializedClass = JsonSerializer.Deserialize<Questions.Root>(responseBody);
@@ -54,7 +55,6 @@ namespace QuizzApp
             {
                 CategoriesList.Add(x);
             }
-
         }
     }
 }
