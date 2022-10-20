@@ -14,7 +14,7 @@ namespace QuizzApp
             {
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri("https://opentdb.com/");
-                HttpResponseMessage response = await client.GetAsync("api.php?amount=10&difficulty=easy");
+                HttpResponseMessage response = await client.GetAsync("api.php?amount=20&category=9&difficulty=easy");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 // Above three lines can be replaced with new helper method below
