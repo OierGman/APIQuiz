@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Runtime.InteropServices;
+using System.Web;
 
 namespace QuizzApp
 {
@@ -8,6 +9,7 @@ namespace QuizzApp
         Label question;
         Button answer;
         int counter = 0;
+        StringWriter writer = new StringWriter();   
 
 
         public Form1()
@@ -21,7 +23,8 @@ namespace QuizzApp
         {
             this.Controls.Clear();
             GUI(counter);
-            question.Text = QuizEngine.roots[0].question.ToString();
+            //HttpUtility.HtmlDecode(QuizEngine.roots[0].question.ToString(), writer);
+            //question.Text = writer.ToString();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -60,7 +63,9 @@ namespace QuizzApp
         {
             this.Controls.Clear();
 
-            question.Text = QuizEngine.roots[counter].question.ToString();
+            writer = new StringWriter();
+            HttpUtility.HtmlDecode(QuizEngine.roots[counter].question.ToString(), writer);
+            question.Text = writer.ToString();
 
             TableLayoutPanel QuizContainer = new TableLayoutPanel()
             {
@@ -100,7 +105,7 @@ namespace QuizzApp
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
-                    BackColor = Color.Coral,
+                    BackColor = Color.WhiteSmoke,
                     FlatAppearance =
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
                 }, rand1.Next(0, 2), rand1.Next(0, 2));
@@ -146,7 +151,7 @@ namespace QuizzApp
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
-                    BackColor = Color.Coral,
+                    BackColor = Color.WhiteSmoke,
                     FlatAppearance =
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
                 }, 0, 0);
@@ -172,12 +177,14 @@ namespace QuizzApp
             TableLayoutPanel correct = new TableLayoutPanel();
             correct.Dock = DockStyle.Fill;
             correct.BackColor = Color.LightGreen;
-            correct.Controls.Add(new Label() { Text = "CORRECT", TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
             this.Controls.Add(correct);
         }
-        public void Inorrect()
+        public void Incorrect()
         {
-            this.BackColor = Color.Red;
+            TableLayoutPanel incorrect = new TableLayoutPanel();
+            incorrect.Dock = DockStyle.Fill;
+            incorrect.BackColor = Color.Coral;
+            this.Controls.Add(incorrect);
         }
         private void button_Click(object sender, EventArgs e)
         {
@@ -185,6 +192,13 @@ namespace QuizzApp
             {
                 this.Controls.Clear();
                 Correct();
+                System.Threading.Thread.Sleep(1000);
+                counter++;
+            }
+            else
+            {
+                this.Controls.Clear();
+                Incorrect();
                 System.Threading.Thread.Sleep(1000);
                 counter++;
             }
