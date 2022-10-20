@@ -14,7 +14,7 @@ namespace QuizzApp
             try
             {
                 client.BaseAddress = new Uri("https://opentdb.com/");
-                HttpResponseMessage response = await client.GetAsync("api.php?amount=10&difficulty=easy&type=boolean");
+                HttpResponseMessage response = await client.GetAsync("api.php?");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 // Above three lines can be replaced with new helper method below
@@ -31,6 +31,7 @@ namespace QuizzApp
                 Console.WriteLine("Message :{0} ", e.Message);
             }
         }
+
         public static async Task GetCategoriesTask()
         {
             // Call asynchronous network methods in a try/catch block to handle exceptions.
@@ -43,5 +44,17 @@ namespace QuizzApp
             }
         }
 
+        public static async Task GetQuizTask(string quizzSeed)
+        {
+            // Call asynchronous network methods in a try/catch block to handle exceptions.
+            client.BaseAddress = new Uri("https://opentdb.com/");
+            string responseBody = await client.GetStringAsync(quizzSeed);
+            Questions.Root myDeserializedClass = JsonSerializer.Deserialize<Questions.Root>(responseBody);
+            foreach (var x in myDeserializedClass.trivia_categories)
+            {
+                CategoriesList.Add(x);
+            }
+
+        }
     }
 }

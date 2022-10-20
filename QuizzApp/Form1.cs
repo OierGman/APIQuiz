@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace QuizzApp
@@ -17,7 +18,7 @@ namespace QuizzApp
         private void Form1_Load(object sender, EventArgs e)
         {
             CreateLabel();
-            var yeetTask = QuizEngine.GetCategoriesTask();
+            var categoriesTask = QuizEngine.GetCategoriesTask();
         }
 
         private void button1_Click(object sender, EventArgs e)
