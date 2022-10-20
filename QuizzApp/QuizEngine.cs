@@ -18,7 +18,7 @@ namespace QuizzApp
             try
             {
                 client.BaseAddress = new Uri("https://opentdb.com/");
-                HttpResponseMessage response = await client.GetAsync("api.php?amount=10&difficulty=easy&type=boolean");
+                HttpResponseMessage response = await client.GetAsync("api.php?amount=10&difficulty=easy");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 // Above three lines can be replaced with new helper method below
@@ -28,7 +28,10 @@ namespace QuizzApp
                 {
                     roots.Add(x);
                     Console.WriteLine(x.question);
+                    Console.WriteLine(x.type.GetType());
                     Console.WriteLine(x.correct_answer);
+                    Console.WriteLine(x.incorrect_answers);
+                    Console.WriteLine(x.incorrect_answers[0]);
                 }
             }
             catch (HttpRequestException e)
