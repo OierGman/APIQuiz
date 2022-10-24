@@ -236,7 +236,8 @@ namespace QuizzApp
 
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            result.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             if ( Score > highscore)
             {
                 result.Controls.Add(
@@ -246,7 +247,7 @@ namespace QuizzApp
             else
             {
                 result.Controls.Add(
-                new Label() { Text = "Previous HighScore: " + highscore.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
+                    new Label() { Text = "Previous HighScore: " + highscore.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
                 this.Controls.Add(result);
                 result.Controls.Add(
                     new Label() { Text = "Your Score: " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
@@ -254,7 +255,17 @@ namespace QuizzApp
             }
             result.Controls.Add(new Button()
             {
-                Text = "Back to start",
+                Text = "Retry",
+                TextAlign = ContentAlignment.MiddleCenter,
+                Dock = DockStyle.Fill,
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.WhiteSmoke,
+                FlatAppearance =
+                        { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
+            });
+            result.Controls.Add(new Button()
+            {
+                Text = "Back to Main Menu",
                 TextAlign = ContentAlignment.MiddleCenter,
                 Dock = DockStyle.Fill,
                 FlatStyle = FlatStyle.Flat,
@@ -273,7 +284,6 @@ namespace QuizzApp
             {
                 this.Controls.Clear();
                 Correct();
-                System.Threading.Thread.Sleep(1000);
                 switch (QuizEngine.roots[counter].difficulty)
                 {
                     case "easy":
@@ -290,13 +300,14 @@ namespace QuizzApp
                         break;
                 }
                 counter++;
+                System.Threading.Thread.Sleep(1000);
             }
             else
             {
                 this.Controls.Clear();
                 Incorrect();
-                System.Threading.Thread.Sleep(1000);
                 counter++;
+                System.Threading.Thread.Sleep(1000);
             }
 
             if (counter == QuizEngine.roots.Count)
@@ -315,12 +326,19 @@ namespace QuizzApp
             {
                 highscore = Score;
             }
-            Score = 0;
-            counter = 0;
-            QuizEngine.roots.Clear();
-            var quizzPlay = QuizEngine.Main();
-            await Task.WhenAll(quizzPlay);
-            GUI(counter);
+            if (((Button)sender).Text == "Retry")
+            {
+                Score = 0;
+                counter = 0;
+                QuizEngine.roots.Clear();
+                var quizzPlay = QuizEngine.Main();
+                await Task.WhenAll(quizzPlay);
+                GUI(counter);
+            }
+            else
+            {
+                // go to main menu
+            }
         }
 
             // console for testing
