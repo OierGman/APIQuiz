@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Web;
 
@@ -35,7 +34,14 @@ namespace QuizzApp
             string seed = QuizStringStart();
             var quizzPlay = QuizEngine.Main(seed);
             await Task.WhenAll(quizzPlay);
-            GUI(counter);
+            try
+            {
+                GUI(counter);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         // category checked list allowing 1 checked box at a time.
         private void categoriesCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -89,7 +95,7 @@ namespace QuizzApp
             string questionCategory = "";
             string questionDifficulty = "";
             string questionStyle = "";
-            if (categoriesCheckedListBox.SelectedIndex >=0)
+            if (categoriesCheckedListBox.SelectedIndex >= 0)
             {
                 questionCategory = "category=" + categoriesCheckedListBox.SelectedIndex;
             }
@@ -100,7 +106,8 @@ namespace QuizzApp
             if (questionStylesCheckedListBox.SelectedIndex == 1)
             {
                 questionStyle = "type=multiple";
-            } else if (questionStylesCheckedListBox.SelectedIndex == 2)
+            }
+            else if (questionStylesCheckedListBox.SelectedIndex == 2)
             {
                 questionStyle = "type=boolean";
             }
@@ -108,7 +115,7 @@ namespace QuizzApp
             {
                 // execute timed events
             }
-            string seed = questionAmount+"&"+ questionCategory + "&"+ questionDifficulty+"&"+questionStyle; // add timed event
+            string seed = questionAmount + "&" + questionCategory + "&" + questionDifficulty + "&" + questionStyle; // add timed event
             return seed;
         }
 
@@ -299,7 +306,7 @@ namespace QuizzApp
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            if ( Score > highscore)
+            if (Score > highscore)
             {
                 result.Controls.Add(
                 new Label() { Text = "New HighScore: " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });

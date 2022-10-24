@@ -19,20 +19,27 @@ namespace QuizzApp
                 // Above three lines can be replaced with new helper method below
                 // string responseBody = await client.GetStringAsync(uri);
                 Questions.Root myDeserializedClass = JsonSerializer.Deserialize<Questions.Root>(responseBody);
-                foreach (var x in myDeserializedClass.results)
+
+                if (myDeserializedClass.response_code == 0)
                 {
-                    roots.Add(x);
-                    Console.WriteLine(x.question);
-                    Console.WriteLine(x.type.GetType());
-                    Console.WriteLine(x.correct_answer);
-                    Console.WriteLine(x.incorrect_answers);
-                    Console.WriteLine(x.incorrect_answers[0]);
+                    foreach (var x in myDeserializedClass.results)
+                    {
+                        roots.Add(x);
+                        Console.WriteLine(x.question);
+                        Console.WriteLine(x.type.GetType());
+                        Console.WriteLine(x.correct_answer);
+                        Console.WriteLine(x.incorrect_answers);
+                        Console.WriteLine(x.incorrect_answers[0]);
+                    }
                 }
             }
-            catch (HttpRequestException e)
+            catch (Exception exception)
             {
-                Console.WriteLine("\nException Caught!");
-                Console.WriteLine("Message :{0} ", e.Message);
+                if (exception is HttpRequestException)
+                {
+                    Console.WriteLine("\nException Caught!");
+                    Console.WriteLine("Message :{0} ", exception.Message);
+                }
             }
         }
 
