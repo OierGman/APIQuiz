@@ -9,9 +9,9 @@ namespace QuizzApp
         Label question;
         int counter = 0;
         int Score = 0;
-        StringWriter writer = new StringWriter();   
+        int highscore = 0;
+        StringWriter writer = new StringWriter();  
         PictureBox pictureBox1 = new PictureBox();
-
 
         public Form1()
         {
@@ -63,13 +63,35 @@ namespace QuizzApp
                 BackColor = Color.Transparent,
             };
         }
-
-        private void Timer(int difficulty)
+       /*
+        public async Task Timer()
         {
-            int size = 100;
+            float size = 100F;
+            float diff = 100F - size;
 
+            TimerBox.RowCount = 1;
+            TimerBox.ColumnCount = 2;
+            TimerBox.Dock = DockStyle.Fill;
+
+            TimerBox.Controls.Add(pictureBox1);
+
+            pictureBox1.BackColor = Color.Green;
+            pictureBox1.Dock = DockStyle.Fill;
+
+            for (int i = 0; i < 100; i++)
+            {
+                TimerBox.ColumnStyles.RemoveAt(0);
+                TimerBox.ColumnStyles.RemoveAt(1); 
+
+                TimerBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, size));
+                TimerBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, diff));
+
+                size--;
+                Console.WriteLine(size);
+                Thread.Sleep(50);
+            }
         }
-
+       */
         public void GUI(int counter)
         {
             this.Controls.Clear();
@@ -87,8 +109,12 @@ namespace QuizzApp
             QuizContainer.Dock = DockStyle.Fill;
 
             QuizContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
+
             QuizContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 45F));
             QuizContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+
+            pictureBox1.BackColor = Color.Green;
+            pictureBox1.Dock = DockStyle.Fill;
 
             QuizContainer.Controls.Add(pictureBox1);
             QuizContainer.Controls.Add(question);
@@ -111,7 +137,7 @@ namespace QuizzApp
             //AnsContainer.Controls.Add(ans1);
             var rand1 = new Random();
             if (QuizEngine.roots[counter].type == "multiple")
-            {          
+            {
                 AnsContainer.Controls.Add(new Button()
                 {
                     Text = QuizEngine.roots[counter].correct_answer,
@@ -179,7 +205,7 @@ namespace QuizzApp
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
                 }, 1, 0);
             }
-
+        
             foreach (var button in AnsContainer.Controls.OfType<Button>())
             {
                 button.Click += button_Click;
@@ -208,12 +234,38 @@ namespace QuizzApp
                 BackColor = Color.WhiteSmoke
             };
 
+            result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            result.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-
-            result.Controls.Add(
-                new Label() { Text = "Your Score: " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
-            this.Controls.Add(result);
+            if ( Score > highscore)
+            {
+                result.Controls.Add(
+                new Label() { Text = "New HighScore: " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
+                this.Controls.Add(result);
+            }
+            else
+            {
+                result.Controls.Add(
+                new Label() { Text = "Previous HighScore: " + highscore.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
+                this.Controls.Add(result);
+                result.Controls.Add(
+                    new Label() { Text = "Your Score: " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
+                this.Controls.Add(result);
+            }
+            result.Controls.Add(new Button()
+            {
+                Text = "Back to start",
+                TextAlign = ContentAlignment.MiddleCenter,
+                Dock = DockStyle.Fill,
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.WhiteSmoke,
+                FlatAppearance =
+                        { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
+            });
+            foreach (var button in result.Controls.OfType<Button>())
+            {
+                button.Click += restart_Click;
+            }
         }
         private void button_Click(object sender, EventArgs e)
         {
@@ -256,6 +308,19 @@ namespace QuizzApp
             {
                 GUI(counter);
             }
+        }
+        private async void restart_Click(object sender, EventArgs e)
+        {
+            if (Score > highscore)
+            {
+                highscore = Score;
+            }
+            Score = 0;
+            counter = 0;
+            QuizEngine.roots.Clear();
+            var quizzPlay = QuizEngine.Main();
+            await Task.WhenAll(quizzPlay);
+            GUI(counter);
         }
 
             // console for testing
