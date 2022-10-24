@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Web;
 
@@ -10,7 +9,7 @@ namespace QuizzApp
         int counter = 0;
         int Score = 0;
         int highscore = 0;
-        StringWriter writer = new StringWriter();  
+        StringWriter writer = new StringWriter();
         PictureBox pictureBox1 = new PictureBox();
 
         public Form1()
@@ -76,35 +75,35 @@ namespace QuizzApp
                 BackColor = Color.Transparent,
             };
         }
-       /*
-        public async Task Timer()
-        {
-            float size = 100F;
-            float diff = 100F - size;
+        /*
+         public async Task Timer()
+         {
+             float size = 100F;
+             float diff = 100F - size;
 
-            TimerBox.RowCount = 1;
-            TimerBox.ColumnCount = 2;
-            TimerBox.Dock = DockStyle.Fill;
+             TimerBox.RowCount = 1;
+             TimerBox.ColumnCount = 2;
+             TimerBox.Dock = DockStyle.Fill;
 
-            TimerBox.Controls.Add(pictureBox1);
+             TimerBox.Controls.Add(pictureBox1);
 
-            pictureBox1.BackColor = Color.Green;
-            pictureBox1.Dock = DockStyle.Fill;
+             pictureBox1.BackColor = Color.Green;
+             pictureBox1.Dock = DockStyle.Fill;
 
-            for (int i = 0; i < 100; i++)
-            {
-                TimerBox.ColumnStyles.RemoveAt(0);
-                TimerBox.ColumnStyles.RemoveAt(1); 
+             for (int i = 0; i < 100; i++)
+             {
+                 TimerBox.ColumnStyles.RemoveAt(0);
+                 TimerBox.ColumnStyles.RemoveAt(1); 
 
-                TimerBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, size));
-                TimerBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, diff));
+                 TimerBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, size));
+                 TimerBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, diff));
 
-                size--;
-                Console.WriteLine(size);
-                Thread.Sleep(50);
-            }
-        }
-       */
+                 size--;
+                 Console.WriteLine(size);
+                 Thread.Sleep(50);
+             }
+         }
+        */
         public void GUI(int counter)
         {
             this.Controls.Clear();
@@ -218,7 +217,7 @@ namespace QuizzApp
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
                 }, 1, 0);
             }
-        
+
             foreach (var button in AnsContainer.Controls.OfType<Button>())
             {
                 button.Click += button_Click;
@@ -250,7 +249,7 @@ namespace QuizzApp
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            if ( Score > highscore)
+            if (Score > highscore)
             {
                 result.Controls.Add(
                 new Label() { Text = "New HighScore: " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
@@ -336,8 +335,8 @@ namespace QuizzApp
             GUI(counter);
         }
 
-            // console for testing
-            [DllImport("kernel32.dll", SetLastError = true)]
+        // console for testing
+        [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
