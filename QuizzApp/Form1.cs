@@ -36,18 +36,28 @@ namespace QuizzApp
             await Task.WhenAll(quizzPlay);
             GUI(counter);
         }
-
+        // category checked list allowing 1 checked box at a time.
         private void categoriesCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            for (int ix = 0; ix < categoriesCheckedListBox.Items.Count; ++ix)
+            for (int i = 0; i < categoriesCheckedListBox.Items.Count; ++i)
             {
-                if (ix != e.Index)
+                if (i != e.Index)
                 {
-                    categoriesCheckedListBox.SetItemChecked(ix, false);
+                    categoriesCheckedListBox.SetItemChecked(i, false);
                 }
             }
         }
-
+        // difficulty checked list allowing 1 checked box at a time.
+        private void difficultyCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            for (int i = 0; i < difficultyCheckedListBox.Items.Count; ++i)
+            {
+                if (i != e.Index)
+                {
+                    difficultyCheckedListBox.SetItemChecked(i, false);
+                }
+            }
+        }
         private void button2_Click(object sender, EventArgs e)
         {
             QuizBuilder();
