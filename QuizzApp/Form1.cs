@@ -36,18 +36,18 @@ namespace QuizzApp
             await Task.WhenAll(quizzPlay);
             GUI(counter);
         }
-        /*
-        private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
+
+        private void categoriesCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            for (int ix = 0; ix < checkedListBox1.Items.Count; ++ix)
+            for (int ix = 0; ix < categoriesCheckedListBox.Items.Count; ++ix)
             {
                 if (ix != e.Index)
                 {
-                    checkedListBox1.SetItemChecked(ix, false);
+                    categoriesCheckedListBox.SetItemChecked(ix, false);
                 }
             }
         }
-        */
+
         private void button2_Click(object sender, EventArgs e)
         {
             QuizBuilder();

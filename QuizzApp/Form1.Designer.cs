@@ -171,6 +171,7 @@
             this.categoriesCheckedListBox.Name = "categoriesCheckedListBox";
             this.categoriesCheckedListBox.Size = new System.Drawing.Size(252, 441);
             this.categoriesCheckedListBox.TabIndex = 1;
+            this.categoriesCheckedListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.categoriesCheckedListBox_ItemCheck);
             // 
             // categoriesLabel
             // 
