@@ -131,35 +131,7 @@ namespace QuizzApp
                 BackColor = Color.Transparent,
             };
         }
-        /*
-         public async Task Timer()
-         {
-             float size = 100F;
-             float diff = 100F - size;
 
-             TimerBox.RowCount = 1;
-             TimerBox.ColumnCount = 2;
-             TimerBox.Dock = DockStyle.Fill;
-
-             TimerBox.Controls.Add(pictureBox1);
-
-             pictureBox1.BackColor = Color.Green;
-             pictureBox1.Dock = DockStyle.Fill;
-
-             for (int i = 0; i < 100; i++)
-             {
-                 TimerBox.ColumnStyles.RemoveAt(0);
-                 TimerBox.ColumnStyles.RemoveAt(1); 
-
-                 TimerBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, size));
-                 TimerBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, diff));
-
-                 size--;
-                 Console.WriteLine(size);
-                 Thread.Sleep(50);
-             }
-         }
-        */
         public void GUI(int counter)
         {
             this.Controls.Clear();
