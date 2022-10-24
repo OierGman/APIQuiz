@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Web;
 
@@ -9,7 +10,6 @@ namespace QuizzApp
         int counter = 0;
         int Score = 0;
         int highscore = 0;
-        StringWriter writer = new StringWriter();
         PictureBox pictureBox1 = new PictureBox();
 
         public Form1()
@@ -24,7 +24,7 @@ namespace QuizzApp
             var categoriesTask = QuizEngine.GetCategoriesTask();
             // await for tasks to complete.
             await Task.WhenAll(categoriesTask);
-            QuizBuilder();
+            QuizGetCategories();
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -32,7 +32,8 @@ namespace QuizzApp
             Controls.Remove(button1);
             Controls.Remove(button2);
             //string seed = "amount="+numericUpDown1.Value+"&"+
-            var quizzPlay = QuizEngine.Main();
+            string seed = QuizStringStart();
+            var quizzPlay = QuizEngine.Main(seed);
             await Task.WhenAll(quizzPlay);
             GUI(counter);
         }
@@ -58,19 +59,57 @@ namespace QuizzApp
                 }
             }
         }
+        // question style choice allowing 1 checked box at a time.
+        private void questionStylesCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            for (int i = 0; i < questionStylesCheckedListBox.Items.Count; ++i)
+            {
+                if (i != e.Index)
+                {
+                    questionStylesCheckedListBox.SetItemChecked(i, false);
+                }
+            }
+        }
         private void button2_Click(object sender, EventArgs e)
         {
-            QuizBuilder();
+
         }
 
-        private void QuizBuilder()
+        private void QuizGetCategories()
         {
             // categories added to list box
             foreach (var x in QuizEngine.CategoriesList)
             {
                 categoriesCheckedListBox.Items.Add(x.name);
             }
-            // difficulties
+        }
+        private string QuizStringStart()
+        {
+            string questionAmount = "amount=" + questionAmountNumericUpDown.Value;
+            string questionCategory = "";
+            string questionDifficulty = "";
+            string questionStyle = "";
+            if (categoriesCheckedListBox.SelectedIndex >=0)
+            {
+                questionCategory = "category=" + categoriesCheckedListBox.SelectedIndex;
+            }
+            if (difficultyCheckedListBox.SelectedIndex >= 0)
+            {
+                questionDifficulty = "difficulty=" + difficultyCheckedListBox.SelectedItem;
+            }
+            if (questionStylesCheckedListBox.SelectedIndex == 1)
+            {
+                questionStyle = "type=multiple";
+            } else if (questionStylesCheckedListBox.SelectedIndex == 2)
+            {
+                questionStyle = "type=boolean";
+            }
+            if (timedEvent.Checked)
+            {
+                // execute timed events
+            }
+            string seed = questionAmount+"&"+ questionCategory + "&"+ questionDifficulty+"&"+questionStyle; // add timed event
+            return seed;
         }
 
         private void CreateLabel()
@@ -118,8 +157,8 @@ namespace QuizzApp
         {
             this.Controls.Clear();
 
-            writer = new StringWriter();
-            HttpUtility.HtmlDecode(QuizEngine.roots[counter].question.ToString(), writer);
+            StringWriter writer = new StringWriter();
+            HttpUtility.HtmlDecode(QuizEngine.roots[counter].question, writer);
             question.Text = writer.ToString();
 
             TableLayoutPanel QuizContainer = new TableLayoutPanel()
@@ -297,7 +336,7 @@ namespace QuizzApp
             });
             foreach (var button in result.Controls.OfType<Button>())
             {
-                button.Click += restart_Click;
+                //button.Click += restart_Click;
             }
         }
         private void button_Click(object sender, EventArgs e)
@@ -342,6 +381,7 @@ namespace QuizzApp
                 GUI(counter);
             }
         }
+        /*
         private async void restart_Click(object sender, EventArgs e)
         {
             if (Score > highscore)
@@ -362,6 +402,7 @@ namespace QuizzApp
                 // go to main menu
             }
         }
+        */
 
         // console for testing
         [DllImport("kernel32.dll", SetLastError = true)]

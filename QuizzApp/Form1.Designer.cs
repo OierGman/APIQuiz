@@ -37,17 +37,17 @@
             this.categoriesLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.questionStylesCheckedListBox = new System.Windows.Forms.CheckedListBox();
+            this.timedEvent = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.questionAmountNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.difficultyCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.questionAmountNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -138,53 +138,59 @@
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.label3, 0, 4);
-            this.tableLayoutPanel2.Controls.Add(this.checkBox6, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.questionStylesCheckedListBox, 0, 4);
+            this.tableLayoutPanel2.Controls.Add(this.timedEvent, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 3);
             this.tableLayoutPanel2.Controls.Add(this.difficultyCheckedListBox, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.label5, 0, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 75);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 5;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75.96154F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.03846F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.tableLayoutPanel2.RowCount = 6;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 76.19048F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 23.80952F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 263F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 187F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(251, 441);
             this.tableLayoutPanel2.TabIndex = 11;
             // 
-            // label3
+            // questionStylesCheckedListBox
             // 
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(3, 177);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(245, 264);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "Extra features 1,2,3";
+            this.questionStylesCheckedListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.questionStylesCheckedListBox.FormattingEnabled = true;
+            this.questionStylesCheckedListBox.Items.AddRange(new object[] {
+            "Any",
+            "Multiple Choice",
+            "True or False"});
+            this.questionStylesCheckedListBox.Location = new System.Drawing.Point(3, 179);
+            this.questionStylesCheckedListBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.questionStylesCheckedListBox.Name = "questionStylesCheckedListBox";
+            this.questionStylesCheckedListBox.Size = new System.Drawing.Size(245, 70);
+            this.questionStylesCheckedListBox.TabIndex = 11;
+            this.questionStylesCheckedListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.questionStylesCheckedListBox_ItemCheck);
             // 
-            // checkBox6
+            // timedEvent
             // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkBox6.Location = new System.Drawing.Point(3, 107);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(245, 27);
-            this.checkBox6.TabIndex = 0;
-            this.checkBox6.Text = "Timed Events";
-            this.checkBox6.UseVisualStyleBackColor = true;
+            this.timedEvent.AutoSize = true;
+            this.timedEvent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.timedEvent.Location = new System.Drawing.Point(3, 108);
+            this.timedEvent.Name = "timedEvent";
+            this.timedEvent.Size = new System.Drawing.Size(245, 24);
+            this.timedEvent.TabIndex = 0;
+            this.timedEvent.Text = "Timed Events";
+            this.timedEvent.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 187F));
-            this.tableLayoutPanel3.Controls.Add(this.numericUpDown1, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.questionAmountNumericUpDown, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.label2, 1, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 140);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 138);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
@@ -192,23 +198,23 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(245, 34);
             this.tableLayoutPanel3.TabIndex = 7;
             // 
-            // numericUpDown1
+            // questionAmountNumericUpDown
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(3, 3);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.questionAmountNumericUpDown.Location = new System.Drawing.Point(3, 3);
+            this.questionAmountNumericUpDown.Maximum = new decimal(new int[] {
             50,
             0,
             0,
             0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.questionAmountNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(52, 27);
-            this.numericUpDown1.TabIndex = 10;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.questionAmountNumericUpDown.Name = "questionAmountNumericUpDown";
+            this.questionAmountNumericUpDown.Size = new System.Drawing.Size(52, 27);
+            this.questionAmountNumericUpDown.TabIndex = 10;
+            this.questionAmountNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -229,13 +235,13 @@
             this.difficultyCheckedListBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.difficultyCheckedListBox.FormattingEnabled = true;
             this.difficultyCheckedListBox.Items.AddRange(new object[] {
-            "Easy",
-            "Medium",
-            "Hard"});
+            "easy",
+            "medium",
+            "hard"});
             this.difficultyCheckedListBox.Location = new System.Drawing.Point(3, 4);
             this.difficultyCheckedListBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.difficultyCheckedListBox.Name = "difficultyCheckedListBox";
-            this.difficultyCheckedListBox.Size = new System.Drawing.Size(245, 71);
+            this.difficultyCheckedListBox.Size = new System.Drawing.Size(245, 72);
             this.difficultyCheckedListBox.TabIndex = 10;
             this.difficultyCheckedListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.difficultyCheckedListBox_ItemCheck);
             // 
@@ -243,7 +249,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(3, 79);
+            this.label5.Location = new System.Drawing.Point(3, 80);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(245, 25);
             this.label5.TabIndex = 8;
@@ -269,7 +275,7 @@
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.questionAmountNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -282,14 +288,14 @@
         private Label label1;
         private Label label5;
         private TableLayoutPanel tableLayoutPanel3;
-        private CheckBox checkBox6;
+        private CheckBox timedEvent;
         private Label quizLabel;
         private CheckedListBox categoriesCheckedListBox;
         private Label categoriesLabel;
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown questionAmountNumericUpDown;
         private CheckedListBox difficultyCheckedListBox;
         private Label label2;
         private TableLayoutPanel tableLayoutPanel2;
-        private Label label3;
+        private CheckedListBox questionStylesCheckedListBox;
     }
 }
