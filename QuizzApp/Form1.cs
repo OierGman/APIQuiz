@@ -31,14 +31,25 @@ namespace QuizzApp
         {
             Controls.Remove(button1);
             Controls.Remove(button2);
+            //string seed = "amount="+numericUpDown1.Value+"&"+
             var quizzPlay = QuizEngine.Main();
             await Task.WhenAll(quizzPlay);
             GUI(counter);
-            
         }
+        /*
+        private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            for (int ix = 0; ix < checkedListBox1.Items.Count; ++ix)
+            {
+                if (ix != e.Index)
+                {
+                    checkedListBox1.SetItemChecked(ix, false);
+                }
+            }
+        }
+        */
         private void button2_Click(object sender, EventArgs e)
         {
-
             QuizBuilder();
         }
 
