@@ -246,7 +246,7 @@ namespace QuizzApp
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
-                    BackColor = Color.WhiteSmoke,
+                    BackColor = Color.Coral,
                     FlatAppearance =
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
                 }, rand1.Next(0, 2), rand1.Next(0, 2));
@@ -456,7 +456,7 @@ namespace QuizzApp
                     }
                     else
                     {
-                        // jamies method
+                        
                     }
                 }
                 else
@@ -500,7 +500,17 @@ namespace QuizzApp
                 GUI(counter);
             }
         }
-        
+
+        private async void SuddenDeath()
+        {
+            Score = 0;
+            highscore = 0;
+            counter = 0;
+            QuizEngine.roots.Clear();
+            var quizzSuddenDeath = QuizEngine.SuddenDeathTask();
+            await Task.WhenAll(quizzSuddenDeath);
+            GUI(counter);
+        }
         private async void restart_Click(object sender, EventArgs e)
         {
             // restart game same game mode with new questions
