@@ -40,11 +40,13 @@ namespace QuizzApp
                 Incorrect();
                 counter++;
                 System.Threading.Thread.Sleep(1000);
+                MyTimer.Interval = 8000;
             }
 
             if (counter == QuizEngine.roots.Count)
             {
                 this.Controls.Clear();
+                MyTimer.Stop();
                 Result();
             }
             else
@@ -203,7 +205,6 @@ namespace QuizzApp
 
             QuizContainer.Controls.Add(AnsContainer);
 
-            //AnsContainer.Controls.Add(ans1);
             var rand1 = new Random();
             if (QuizEngine.roots[counter].type == "multiple")
             {
@@ -279,8 +280,9 @@ namespace QuizzApp
             {
                 button.Click += button_Click;
             }
-            if (timedEvent.Checked == true)
+            if (timedEvent.Checked == true || MyTimer.Interval != 0)
             {
+                MyTimer.Interval = 8000;
                 MyTimer.Start();
             }
         }
@@ -359,20 +361,41 @@ namespace QuizzApp
             {
                 this.Controls.Clear();
                 Correct();
-                switch (QuizEngine.roots[counter].difficulty)
+                if (timedEvent.Checked == true)
                 {
-                    case "easy":
-                        Score++;
-                        break;
-                    case "medium":
-                        Score += 2;
-                        break;
-                    case "hard":
-                        Score += 3;
-                        break;
-                    default:
-                        Score++;
-                        break;
+                    switch (QuizEngine.roots[counter].difficulty)
+                    {
+                        case "easy":
+                            Score += 2;
+                            break;
+                        case "medium":
+                            Score += 3;
+                            break;
+                        case "hard":
+                            Score += 4;
+                            break;
+                        default:
+                            Score++;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (QuizEngine.roots[counter].difficulty)
+                    {
+                        case "easy":
+                            Score++;
+                            break;
+                        case "medium":
+                            Score += 2;
+                            break;
+                        case "hard":
+                            Score += 3;
+                            break;
+                        default:
+                            Score++;
+                            break;
+                    }
                 }
                 counter++;
                 System.Threading.Thread.Sleep(1000);
@@ -388,6 +411,7 @@ namespace QuizzApp
             if (counter == QuizEngine.roots.Count)
             {
                 this.Controls.Clear();
+                MyTimer.Stop();
                 Result();
             }
             else
@@ -407,7 +431,6 @@ namespace QuizzApp
             {
                 Score = 0;
                 counter = 0;
-                MyTimer.Interval = 8000;
                 QuizEngine.roots.Clear();
                 var quizzPlay = QuizEngine.Main(storedSeed);
                 await Task.WhenAll(quizzPlay);
