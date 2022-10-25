@@ -422,7 +422,6 @@ namespace QuizzApp
                 result.Controls.Add(
                     new Label() { Text = "DRAW!!! - " + highscore.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
                 this.Controls.Add(result);
-
                 result.Controls.Add(new Button()
                 {
                     Text = "Go To Sudden Death Rounds",
@@ -430,6 +429,7 @@ namespace QuizzApp
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
                     BackColor = Color.WhiteSmoke,
+                    
                     FlatAppearance =
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
                 });
@@ -516,7 +516,6 @@ namespace QuizzApp
                     else
                     {
                         TwoPlayerResult();
-                        // jamies method
                     }
                 }
                 else
@@ -564,9 +563,6 @@ namespace QuizzApp
 
         private async void SuddenDeath()
         {
-            Score = 0;
-            highscore = 0;
-            counter = 0;
             QuizEngine.roots.Clear();
             var quizzSuddenDeath = QuizEngine.SuddenDeathTask();
             await Task.WhenAll(quizzSuddenDeath);
@@ -651,8 +647,7 @@ namespace QuizzApp
                 Score = 0;
                 highscore = 0;
                 counter = 0;
-                // jamie method
-
+                SuddenDeath();
             }
             else
             {
