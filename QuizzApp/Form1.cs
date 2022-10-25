@@ -333,11 +333,11 @@ namespace QuizzApp
             {
                 button.Click += button_Click;
             }
-            if(audioCheckBox.Checked == true)
+
+            if (audioCheckBox.Checked == true)
             {
                 // Configure the audio output.   
                 synth.SetOutputToDefaultAudioDevice();
-                
                 synth.Speak(question.Text);
             }
 
