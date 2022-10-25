@@ -51,6 +51,7 @@ namespace QuizzApp
             }
             else
             {
+                MyTimer.Stop();
                 MyTimer.Interval = 8000;
                 GUI(counter);
             }
@@ -282,6 +283,7 @@ namespace QuizzApp
             }
             if (timedEvent.Checked == true || MyTimer.Interval != 0)
             {
+                MyTimer.Stop();
                 MyTimer.Interval = 8000;
                 MyTimer.Start();
             }
@@ -291,6 +293,7 @@ namespace QuizzApp
             TableLayoutPanel correct = new TableLayoutPanel();
             correct.Dock = DockStyle.Fill;
             correct.BackColor = Color.LightGreen;
+            MyTimer.Stop();
             MyTimer.Interval = 8000;
             this.Controls.Add(correct);
         }
@@ -299,6 +302,7 @@ namespace QuizzApp
             TableLayoutPanel incorrect = new TableLayoutPanel();
             incorrect.Dock = DockStyle.Fill;
             incorrect.BackColor = Color.Coral;
+            MyTimer.Stop();
             MyTimer.Interval = 8000;
             this.Controls.Add(incorrect);
         }
