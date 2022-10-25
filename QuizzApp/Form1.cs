@@ -1,6 +1,11 @@
+using System.Media;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Web;
+using QuizzApp.Properties;
+using WMPLib;
 using System.Speech.Synthesis;
+
 
 namespace QuizzApp
 {
@@ -10,7 +15,11 @@ namespace QuizzApp
         int counter = 0;
         int Score = 0;
         int highscore = 0;
+        int Score1 = 0;
+        bool twoplayer = false;
+        bool twoplayerresult = false;
         string storedSeed;
+        bool suddenD = false;
         PictureBox pictureBox1 = new PictureBox();
         System.Windows.Forms.Timer MyTimer = new System.Windows.Forms.Timer();
 
@@ -60,8 +69,7 @@ namespace QuizzApp
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            Controls.Remove(button1);
-            Controls.Remove(button2);
+            this.Controls.Clear();
             //string seed = "amount="+numericUpDown1.Value+"&"+
             string seed = QuizStringStart();
             var quizzPlay = QuizEngine.Main(seed);
@@ -108,9 +116,46 @@ namespace QuizzApp
                 }
             }
         }
-        private void button2_Click(object sender, EventArgs e)
+        private async void button2_Click(object sender, EventArgs e)
         {
+            QuizStringStart();
+            
+            this.Controls.Clear();
+            
 
+            TwoPlayerGame(counter);
+
+        }
+
+        public async void TwoPlayerGame(int counter)
+        {
+            twoplayer = true;
+            TableLayoutPanel QuizContainer = new TableLayoutPanel()
+            {
+                RowCount = 3,
+                Dock = DockStyle.Fill
+            };
+            this.Controls.Add(QuizContainer);
+            QuizContainer.Dock = DockStyle.Fill;
+
+            QuizContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+
+            QuizContainer.Controls.Add(
+                new Label() { Text = "Ready Player 1", Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill }, 0, 0);
+
+            var quizzPlay = QuizEngine.Main(storedSeed);
+            await Task.WhenAll(quizzPlay);
+
+            System.Threading.Thread.Sleep(5000);
+            try
+            {
+                
+                GUI(counter);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void QuizGetCategories()
@@ -179,7 +224,7 @@ namespace QuizzApp
 
             TableLayoutPanel QuizContainer = new TableLayoutPanel()
             {
-                RowCount = 2,
+                RowCount = 3,
                 Dock = DockStyle.Fill
             };
             this.Controls.Add(QuizContainer);
@@ -216,18 +261,18 @@ namespace QuizzApp
             {
                 AnsContainer.Controls.Add(new Button()
                 {
-                    Text = QuizEngine.roots[counter].correct_answer,
+                    Text = HttpUtility.HtmlDecode(QuizEngine.roots[counter].correct_answer),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
-                    BackColor = Color.WhiteSmoke,
+                    BackColor = Color.Coral,
                     FlatAppearance =
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
                 }, rand1.Next(0, 2), rand1.Next(0, 2));
 
                 AnsContainer.Controls.Add(new Button()
                 {
-                    Text = QuizEngine.roots[counter].incorrect_answers[0],
+                    Text = HttpUtility.HtmlDecode(QuizEngine.roots[counter].incorrect_answers[0]),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
@@ -238,7 +283,7 @@ namespace QuizzApp
 
                 AnsContainer.Controls.Add(new Button()
                 {
-                    Text = QuizEngine.roots[counter].incorrect_answers[1],
+                    Text = HttpUtility.HtmlDecode(QuizEngine.roots[counter].incorrect_answers[1]),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
@@ -249,7 +294,7 @@ namespace QuizzApp
 
                 AnsContainer.Controls.Add(new Button()
                 {
-                    Text = QuizEngine.roots[counter].incorrect_answers[2],
+                    Text = HttpUtility.HtmlDecode(QuizEngine.roots[counter].incorrect_answers[2]),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
@@ -286,6 +331,7 @@ namespace QuizzApp
             {
                 button.Click += button_Click;
             }
+
             if (timedEvent.Checked == true)
             {
                 MyTimer.Stop();
@@ -293,6 +339,7 @@ namespace QuizzApp
                 MyTimer.Start();
             }
         }
+
         public void Correct()
         {
             TableLayoutPanel correct = new TableLayoutPanel();
@@ -302,6 +349,7 @@ namespace QuizzApp
             MyTimer.Interval = 8000;
             this.Controls.Add(correct);
         }
+
         public void Incorrect()
         {
             TableLayoutPanel incorrect = new TableLayoutPanel();
@@ -311,6 +359,7 @@ namespace QuizzApp
             MyTimer.Interval = 8000;
             this.Controls.Add(incorrect);
         }
+
         public void Result()
         {
             TableLayoutPanel result = new TableLayoutPanel()
@@ -364,9 +413,71 @@ namespace QuizzApp
                 button.Click += restart_Click;
             }
         }
-        private void button_Click(object sender, EventArgs e)
+
+        public void TwoPlayerResult()
         {
-            if (((Button)sender).Text == QuizEngine.roots[counter].correct_answer)
+            TableLayoutPanel result = new TableLayoutPanel()
+            {
+                RowCount = 4,
+                Dock = DockStyle.Fill,
+                BackColor = Color.WhiteSmoke
+            };
+
+            result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+
+            if (Score > Score1)
+            {
+                result.Controls.Add(
+                new Label() { Text = "Player 2 Wins: " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill }, 0, 1);
+                this.Controls.Add(result);
+            }
+            else if (Score < Score1)
+            {
+                result.Controls.Add(
+                new Label() { Text = "Player 1 Wins: " + Score1.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill }, 0, 1);
+                this.Controls.Add(result);
+            }
+            else
+            {
+                result.Controls.Add(
+                    new Label() { Text = "DRAW!!! - " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill }, 0, 1);
+                this.Controls.Add(result);
+                result.Controls.Add(new Button()
+                {
+                    Text = "Go To Sudden Death Rounds",
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill,
+                    FlatStyle = FlatStyle.Flat,
+                    BackColor = Color.WhiteSmoke,
+
+                    FlatAppearance =
+                        { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
+                }, 0, 2);
+            }
+
+            result.Controls.Add(new Button()
+            {
+                Text = "Back to Main Menu",
+                TextAlign = ContentAlignment.MiddleCenter,
+                Dock = DockStyle.Fill,
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.WhiteSmoke,
+                FlatAppearance =
+                        { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
+            }, 0, 3);
+
+            foreach (var button in result.Controls.OfType<Button>())
+            {
+                button.Click += twoPlayerrestart_Click;
+            }
+        }
+
+        private async void button_Click(object sender, EventArgs e)
+        {
+            if (((Button)sender).Text == HttpUtility.HtmlDecode(QuizEngine.roots[counter].correct_answer))
             {
                 this.Controls.Clear();
                 Correct();
@@ -421,14 +532,69 @@ namespace QuizzApp
             {
                 this.Controls.Clear();
                 MyTimer.Stop();
-                Result();
+                if (twoplayer == false)
+                {
+                    if (twoplayerresult == false)
+                    {
+                        Result();
+                    }
+                    else
+                    {
+                        TwoPlayerResult();
+                    }
+                }
+                else
+                {
+                    this.Controls.Clear();
+                    twoplayer = false;
+                    twoplayerresult = true;
+                    Score1 = Score;
+                    Score = 0;
+
+                    TableLayoutPanel QuizContainer = new TableLayoutPanel()
+                    {
+                        RowCount = 3,
+                        Dock = DockStyle.Fill
+                    };
+                    this.Controls.Add(QuizContainer);
+                    QuizContainer.Dock = DockStyle.Fill;
+
+                    QuizContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+
+                    QuizContainer.Controls.Add(
+                        new Label() { Text = "Ready Player 2", Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill }, 0, 0);
+
+                    //string seed = "amount="+numericUpDown1.Value+"&"+
+                    var quizzPlay = QuizEngine.Main(storedSeed);
+                    await Task.WhenAll(quizzPlay);
+
+                    System.Threading.Thread.Sleep(5000);
+
+                    try
+                    {
+                        GUI(counter);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
             }
             else
             {
                 GUI(counter);
             }
         }
-        
+
+        private async void SuddenDeath()
+        {
+            QuizEngine.roots.Clear();
+            // var quizzSuddenDeath = QuizEngine.SuddenDeathTask();
+            // await Task.WhenAll(quizzSuddenDeath);
+            storedSeed = "amount=1&difficulty=hard";
+            TwoPlayerGame(counter);
+        }
+
         private async void restart_Click(object sender, EventArgs e)
         {
             // restart game same game mode with new questions
@@ -453,7 +619,7 @@ namespace QuizzApp
                 this.Controls.Clear();
                 TableLayoutPanel mainMenu = new TableLayoutPanel()
                 {
-                    RowCount = 2,
+                    RowCount = 3,
                     Dock = DockStyle.Fill,
                     BackColor = Color.WhiteSmoke
                 };
@@ -499,7 +665,32 @@ namespace QuizzApp
                 */
             }
         }
-        
+        private async void twoPlayerrestart_Click(object sender, EventArgs e)
+        {
+            // restart game same game mode with new questions
+            if (((Button)sender).Text == "Go To Sudden Death Rounds")
+            {
+                Score1 = 0;
+                Score = 0;
+                highscore = 0;
+                counter = 0;
+                SuddenDeath();
+
+                string workingDirectory = Environment.CurrentDirectory;
+                string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+
+                string FileName = projectDirectory + "/Resources/DangerAlarmSoundEffect.mp3";
+
+                WMPLib.WindowsMediaPlayer wplayer = new WMPLib.WindowsMediaPlayer();
+                wplayer.URL = FileName;
+                wplayer.controls.play();
+            }
+            else
+            {
+                Application.Restart();
+            }
+        }
+
 
         // console for testing
         [DllImport("kernel32.dll", SetLastError = true)]
