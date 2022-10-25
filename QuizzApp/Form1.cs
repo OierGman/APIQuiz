@@ -117,15 +117,15 @@ namespace QuizzApp
         private async void button2_Click(object sender, EventArgs e)
         {
             QuizStringStart();
-            var quizzPlay = QuizEngine.Main(storedSeed);
-            await Task.WhenAll(quizzPlay);
+            
             this.Controls.Clear();
             
 
             TwoPlayerGame(counter);
+
         }
 
-        public void TwoPlayerGame(int counter)
+        public async void TwoPlayerGame(int counter)
         {
             twoplayer = true;
             TableLayoutPanel QuizContainer = new TableLayoutPanel()
@@ -141,12 +141,13 @@ namespace QuizzApp
             QuizContainer.Controls.Add(
                 new Label() { Text = "Ready Player 1", Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill }, 0, 0);
 
-            //string seed = "amount="+numericUpDown1.Value+"&"+
+            var quizzPlay = QuizEngine.Main(storedSeed);
+            await Task.WhenAll(quizzPlay);
 
             System.Threading.Thread.Sleep(5000);
-
             try
             {
+                
                 GUI(counter);
             }
             catch (Exception ex)
@@ -558,8 +559,7 @@ namespace QuizzApp
                         new Label() { Text = "Ready Player 2", Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill }, 0, 0);
 
                     //string seed = "amount="+numericUpDown1.Value+"&"+
-                    string seed = QuizStringStart();
-                    var quizzPlay = QuizEngine.Main(seed);
+                    var quizzPlay = QuizEngine.Main(storedSeed);
                     await Task.WhenAll(quizzPlay);
 
                     System.Threading.Thread.Sleep(5000);
@@ -583,8 +583,9 @@ namespace QuizzApp
         private async void SuddenDeath()
         {
             QuizEngine.roots.Clear();
-            var quizzSuddenDeath = QuizEngine.SuddenDeathTask();
-            await Task.WhenAll(quizzSuddenDeath);
+            // var quizzSuddenDeath = QuizEngine.SuddenDeathTask();
+            // await Task.WhenAll(quizzSuddenDeath);
+            storedSeed = "amount=1&difficulty=hard";
             TwoPlayerGame(counter);
         }
 
