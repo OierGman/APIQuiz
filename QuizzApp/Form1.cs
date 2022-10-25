@@ -281,7 +281,7 @@ namespace QuizzApp
             {
                 button.Click += button_Click;
             }
-            if (timedEvent.Checked == true || MyTimer.Interval != 0)
+            if (timedEvent.Checked == true)
             {
                 MyTimer.Stop();
                 MyTimer.Interval = 8000;
