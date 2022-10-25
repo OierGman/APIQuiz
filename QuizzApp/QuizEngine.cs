@@ -28,6 +28,7 @@ namespace QuizzApp
                         Console.WriteLine(x.question);
                         Console.WriteLine(x.type.GetType());
                         Console.WriteLine(x.correct_answer);
+                        Console.WriteLine(x.difficulty);
                         Console.WriteLine(x.incorrect_answers);
                         Console.WriteLine(x.incorrect_answers[0]);
                     }
@@ -75,6 +76,7 @@ namespace QuizzApp
                         Console.WriteLine(x.question);
                         Console.WriteLine(x.type.GetType());
                         Console.WriteLine(x.correct_answer);
+                        Console.WriteLine(x.difficulty);
                         Console.WriteLine(x.incorrect_answers);
                         Console.WriteLine(x.incorrect_answers[0]);
                     }

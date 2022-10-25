@@ -13,6 +13,7 @@ namespace QuizzApp
         bool twoplayer = false;
         bool twoplayerresult = false;
         string storedSeed;
+        bool suddenD = false;
         PictureBox pictureBox1 = new PictureBox();
         System.Windows.Forms.Timer MyTimer = new System.Windows.Forms.Timer();
 
@@ -111,9 +112,18 @@ namespace QuizzApp
         }
         private async void button2_Click(object sender, EventArgs e)
         {
+            QuizStringStart();
+            var quizzPlay = QuizEngine.Main(storedSeed);
+            await Task.WhenAll(quizzPlay);
             this.Controls.Clear();
-            twoplayer = true;
+            
 
+            TwoPlayerGame(counter);
+        }
+
+        public void TwoPlayerGame(int counter)
+        {
+            twoplayer = true;
             TableLayoutPanel QuizContainer = new TableLayoutPanel()
             {
                 RowCount = 3,
@@ -128,9 +138,6 @@ namespace QuizzApp
                 new Label() { Text = "Ready Player 1", Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill }, 0, 0);
 
             //string seed = "amount="+numericUpDown1.Value+"&"+
-            string seed = QuizStringStart();
-            var quizzPlay = QuizEngine.Main(seed);
-            await Task.WhenAll(quizzPlay);
 
             System.Threading.Thread.Sleep(5000);
 
@@ -321,6 +328,7 @@ namespace QuizzApp
                 MyTimer.Start();
             }
         }
+
         public void Correct()
         {
             TableLayoutPanel correct = new TableLayoutPanel();
@@ -330,6 +338,7 @@ namespace QuizzApp
             MyTimer.Interval = 8000;
             this.Controls.Add(correct);
         }
+
         public void Incorrect()
         {
             TableLayoutPanel incorrect = new TableLayoutPanel();
@@ -339,6 +348,7 @@ namespace QuizzApp
             MyTimer.Interval = 8000;
             this.Controls.Add(incorrect);
         }
+
         public void Result()
         {
             TableLayoutPanel result = new TableLayoutPanel()
@@ -406,6 +416,7 @@ namespace QuizzApp
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+
             if (Score > Score1)
             {
                 result.Controls.Add(
@@ -435,6 +446,7 @@ namespace QuizzApp
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
                 }, 0, 2);
             }
+
             result.Controls.Add(new Button()
             {
                 Text = "Back to Main Menu",
@@ -445,6 +457,7 @@ namespace QuizzApp
                 FlatAppearance =
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
             }, 0, 3);
+
             foreach (var button in result.Controls.OfType<Button>())
             {
                 button.Click += twoPlayerrestart_Click;
@@ -453,7 +466,7 @@ namespace QuizzApp
 
         private async void button_Click(object sender, EventArgs e)
         {
-            if (((Button)sender).Text == QuizEngine.roots[counter].correct_answer)
+            if (((Button)sender).Text == HttpUtility.HtmlDecode(QuizEngine.roots[counter].correct_answer))
             {
                 this.Controls.Clear();
                 Correct();
@@ -568,8 +581,9 @@ namespace QuizzApp
             QuizEngine.roots.Clear();
             var quizzSuddenDeath = QuizEngine.SuddenDeathTask();
             await Task.WhenAll(quizzSuddenDeath);
-            GUI(counter);
+            TwoPlayerGame(counter);
         }
+
         private async void restart_Click(object sender, EventArgs e)
         {
             // restart game same game mode with new questions
