@@ -19,6 +19,7 @@ namespace QuizzApp
         bool twoplayer = false;
         bool twoplayerresult = false;
         string storedSeed;
+        bool suddenD = false;
         PictureBox pictureBox1 = new PictureBox();
         System.Windows.Forms.Timer MyTimer = new System.Windows.Forms.Timer();
 
@@ -148,7 +149,6 @@ namespace QuizzApp
             System.Threading.Thread.Sleep(5000);
             try
             {
-                
                 GUI(counter);
             }
             catch (Exception ex)
@@ -213,9 +213,10 @@ namespace QuizzApp
         {
             this.Controls.Clear();
 
+            SpeechSynthesizer synth = new SpeechSynthesizer();
             StringWriter writer = new StringWriter();
             HttpUtility.HtmlDecode(QuizEngine.roots[counter].question, writer);
-            SpeechSynthesizer synth = new SpeechSynthesizer();
+            question.Text = writer.ToString();
 
             TableLayoutPanel QuizContainer = new TableLayoutPanel()
             {
@@ -256,11 +257,12 @@ namespace QuizzApp
             {
                 AnsContainer.Controls.Add(new Button()
                 {
-                    Text = HttpUtility.HtmlDecode(QuizEngine.roots[counter].correct_answer),
+                    Text = HttpUtility.HtmlDecode(QuizEngine.roots[counter].correct_answer), 
+                    Font = new Font("Arial", 20), 
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
-                    BackColor = Color.Coral,
+                    BackColor = Color.WhiteSmoke,
                     FlatAppearance =
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
                 }, rand1.Next(0, 2), rand1.Next(0, 2));
@@ -268,6 +270,7 @@ namespace QuizzApp
                 AnsContainer.Controls.Add(new Button()
                 {
                     Text = HttpUtility.HtmlDecode(QuizEngine.roots[counter].incorrect_answers[0]),
+                    Font = new Font("Arial", 20),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
@@ -279,6 +282,7 @@ namespace QuizzApp
                 AnsContainer.Controls.Add(new Button()
                 {
                     Text = HttpUtility.HtmlDecode(QuizEngine.roots[counter].incorrect_answers[1]),
+                    Font = new Font("Arial", 20),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
@@ -290,6 +294,7 @@ namespace QuizzApp
                 AnsContainer.Controls.Add(new Button()
                 {
                     Text = HttpUtility.HtmlDecode(QuizEngine.roots[counter].incorrect_answers[2]),
+                    Font = new Font("Arial", 20),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
@@ -303,6 +308,7 @@ namespace QuizzApp
                 AnsContainer.Controls.Add(new Button()
                 {
                     Text = "True",
+                    Font = new Font("Arial", 20),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
@@ -313,6 +319,7 @@ namespace QuizzApp
                 AnsContainer.Controls.Add(new Button()
                 {
                     Text = "False",
+                    Font = new Font("Arial", 20),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
@@ -326,11 +333,6 @@ namespace QuizzApp
             {
                 button.Click += button_Click;
             }
-
-            // Configure the audio output.   
-            synth.SetOutputToDefaultAudioDevice();
-            question.Text = writer.ToString();
-            synth.Speak(question.Text);
 
             if (timedEvent.Checked == true)
             {
@@ -376,7 +378,7 @@ namespace QuizzApp
             if (Score > highscore)
             {
                 result.Controls.Add(
-                new Label() { Text = "New HighScore: " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
+                new Label() { Text = "New HighScore: " + Score.ToString(), Font = new Font("Arial", 25), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
                 this.Controls.Add(result);
             }
             else
@@ -391,6 +393,7 @@ namespace QuizzApp
             result.Controls.Add(new Button()
             {
                 Text = "Retry",
+                Font = new Font("Arial", 20),
                 TextAlign = ContentAlignment.MiddleCenter,
                 Dock = DockStyle.Fill,
                 FlatStyle = FlatStyle.Flat,
@@ -401,6 +404,7 @@ namespace QuizzApp
             result.Controls.Add(new Button()
             {
                 Text = "Back to Main Menu",
+                Font = new Font("Arial", 20),
                 TextAlign = ContentAlignment.MiddleCenter,
                 Dock = DockStyle.Fill,
                 FlatStyle = FlatStyle.Flat,
@@ -448,6 +452,7 @@ namespace QuizzApp
                 result.Controls.Add(new Button()
                 {
                     Text = "Go To Sudden Death Rounds",
+                    Font = new Font("Arial", 20),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
@@ -461,6 +466,7 @@ namespace QuizzApp
             result.Controls.Add(new Button()
             {
                 Text = "Back to Main Menu",
+                Font = new Font("Arial", 20),
                 TextAlign = ContentAlignment.MiddleCenter,
                 Dock = DockStyle.Fill,
                 FlatStyle = FlatStyle.Flat,
