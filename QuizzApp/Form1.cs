@@ -44,6 +44,7 @@ namespace QuizzApp
 
         public void MyTimer_Tick(object sender, EventArgs eArgs)
         {
+            // setting timer for timed constrained quesions
             if (sender == MyTimer)
             {
                 this.Controls.Clear();
@@ -118,17 +119,15 @@ namespace QuizzApp
         }
         private async void button2_Click(object sender, EventArgs e)
         {
+            // 2 player setup
             QuizStringStart();
-            
-            this.Controls.Clear();
-            
-
+            this.Controls.Clear(); 
             TwoPlayerGame(counter);
-
         }
 
         public async void TwoPlayerGame(int counter)
         {
+            // two player method
             twoplayer = true;
             TableLayoutPanel QuizContainer = new TableLayoutPanel()
             {
@@ -200,6 +199,7 @@ namespace QuizzApp
         {
             question = new Label()
             {
+                // label for questions
                 Text = "",
                 Font = new Font("Arial", 24),
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -211,6 +211,7 @@ namespace QuizzApp
 
         public void GUI(int counter)
         {
+            // main function of quiz
             this.Controls.Clear();
 
             SpeechSynthesizer synth = new SpeechSynthesizer();
@@ -223,11 +224,11 @@ namespace QuizzApp
                 RowCount = 3,
                 Dock = DockStyle.Fill
             };
+
             this.Controls.Add(QuizContainer);
             QuizContainer.Dock = DockStyle.Fill;
 
             QuizContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
-
             QuizContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 45F));
             QuizContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
 
@@ -255,6 +256,7 @@ namespace QuizzApp
             var rand1 = new Random();
             if (QuizEngine.roots[counter].type == "multiple")
             {
+                // multiple choice answers need random positions in 4x4 grid
                 AnsContainer.Controls.Add(new Button()
                 {
                     Text = HttpUtility.HtmlDecode(QuizEngine.roots[counter].correct_answer), 
@@ -305,6 +307,7 @@ namespace QuizzApp
             }
             else
             {
+                // true / false answers no need to rearange 
                 AnsContainer.Controls.Add(new Button()
                 {
                     Text = "True",
@@ -351,6 +354,7 @@ namespace QuizzApp
 
         public void Correct()
         {
+            // correct answer pop up
             TableLayoutPanel correct = new TableLayoutPanel();
             correct.Dock = DockStyle.Fill;
             correct.BackColor = Color.LightGreen;
@@ -361,6 +365,7 @@ namespace QuizzApp
 
         public void Incorrect()
         {
+            // incorect answer pop up
             TableLayoutPanel incorrect = new TableLayoutPanel();
             incorrect.Dock = DockStyle.Fill;
             incorrect.BackColor = Color.Coral;
@@ -371,6 +376,7 @@ namespace QuizzApp
 
         public void Result()
         {
+            // single player results method
             TableLayoutPanel result = new TableLayoutPanel()
             {
                 RowCount = 2,
@@ -382,12 +388,14 @@ namespace QuizzApp
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+
             if (Score > highscore)
             {
                 result.Controls.Add(
                 new Label() { Text = "New HighScore: " + Score.ToString(), Font = new Font("Arial", 25), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
                 this.Controls.Add(result);
             }
+
             else
             {
                 result.Controls.Add(
@@ -397,6 +405,7 @@ namespace QuizzApp
                     new Label() { Text = "Your Score: " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
                 this.Controls.Add(result);
             }
+
             result.Controls.Add(new Button()
             {
                 Text = "Retry",
@@ -408,6 +417,7 @@ namespace QuizzApp
                 FlatAppearance =
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
             });
+
             result.Controls.Add(new Button()
             {
                 Text = "Back to Main Menu",
@@ -419,6 +429,7 @@ namespace QuizzApp
                 FlatAppearance =
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
             });
+
             foreach (var button in result.Controls.OfType<Button>())
             {
                 button.Click += restart_Click;
@@ -427,6 +438,7 @@ namespace QuizzApp
 
         public void TwoPlayerResult()
         {
+            // results method for two player
             TableLayoutPanel result = new TableLayoutPanel()
             {
                 RowCount = 4,
@@ -439,6 +451,7 @@ namespace QuizzApp
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
 
+            // score comparisons
             if (Score > Score1)
             {
                 result.Controls.Add(
@@ -490,6 +503,7 @@ namespace QuizzApp
 
         private async void button_Click(object sender, EventArgs e)
         {
+            // scoring methods
             if (((Button)sender).Text == HttpUtility.HtmlDecode(QuizEngine.roots[counter].correct_answer))
             {
                 this.Controls.Clear();
@@ -543,6 +557,7 @@ namespace QuizzApp
 
             if (counter == QuizEngine.roots.Count)
             {
+                // filter for single player or multiplayer
                 this.Controls.Clear();
                 MyTimer.Stop();
                 if (twoplayer == false)
@@ -558,6 +573,7 @@ namespace QuizzApp
                 }
                 else
                 {
+                    // player 2 turn
                     this.Controls.Clear();
                     twoplayer = false;
                     twoplayerresult = true;
@@ -689,6 +705,7 @@ namespace QuizzApp
                 counter = 0;
                 SuddenDeath();
 
+                // makes my ears bleed
                 string workingDirectory = Environment.CurrentDirectory;
                 string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
 
