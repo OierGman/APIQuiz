@@ -32,6 +32,10 @@ namespace QuizzApp
                         Console.WriteLine(x.incorrect_answers[0]);
                     }
                 }
+                else
+                {
+                    return;
+                }
             }
             catch (Exception exception)
             {
