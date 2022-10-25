@@ -19,7 +19,6 @@ namespace QuizzApp
         bool twoplayer = false;
         bool twoplayerresult = false;
         string storedSeed;
-        bool suddenD = false;
         PictureBox pictureBox1 = new PictureBox();
         System.Windows.Forms.Timer MyTimer = new System.Windows.Forms.Timer();
 
@@ -217,10 +216,6 @@ namespace QuizzApp
             StringWriter writer = new StringWriter();
             HttpUtility.HtmlDecode(QuizEngine.roots[counter].question, writer);
             SpeechSynthesizer synth = new SpeechSynthesizer();
-            // Configure the audio output.   
-            synth.SetOutputToDefaultAudioDevice();
-            question.Text = writer.ToString();
-            synth.Speak(question.Text);
 
             TableLayoutPanel QuizContainer = new TableLayoutPanel()
             {
@@ -331,6 +326,11 @@ namespace QuizzApp
             {
                 button.Click += button_Click;
             }
+
+            // Configure the audio output.   
+            synth.SetOutputToDefaultAudioDevice();
+            question.Text = writer.ToString();
+            synth.Speak(question.Text);
 
             if (timedEvent.Checked == true)
             {
