@@ -646,6 +646,7 @@ namespace QuizzApp
             // restart game same game mode with new questions
             if (((Button)sender).Text == "Go To Sudden Death Rounds")
             {
+                Score1 = 0;
                 Score = 0;
                 highscore = 0;
                 counter = 0;
