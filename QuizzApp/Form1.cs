@@ -9,7 +9,9 @@ namespace QuizzApp
         int counter = 0;
         int Score = 0;
         int highscore = 0;
+        string storedSeed;
         PictureBox pictureBox1 = new PictureBox();
+        System.Windows.Forms.Timer MyTimer = new System.Windows.Forms.Timer();
 
         public Form1()
         {
@@ -24,6 +26,32 @@ namespace QuizzApp
             // await for tasks to complete.
             await Task.WhenAll(categoriesTask);
             QuizGetCategories();
+
+            // initialise timer
+            MyTimer.Interval = 8000;
+            MyTimer.Tick += new EventHandler(MyTimer_Tick);
+        }
+
+        public void MyTimer_Tick(object sender, EventArgs eArgs)
+        {
+            if (sender == MyTimer)
+            {
+                this.Controls.Clear();
+                Incorrect();
+                counter++;
+                System.Threading.Thread.Sleep(1000);
+            }
+
+            if (counter == QuizEngine.roots.Count)
+            {
+                this.Controls.Clear();
+                Result();
+            }
+            else
+            {
+                MyTimer.Interval = 8000;
+                GUI(counter);
+            }
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -116,6 +144,7 @@ namespace QuizzApp
                 // execute timed events
             }
             string seed = questionAmount + "&" + questionCategory + "&" + questionDifficulty + "&" + questionStyle; // add timed event
+            storedSeed = seed;
             return seed;
         }
 
@@ -250,12 +279,17 @@ namespace QuizzApp
             {
                 button.Click += button_Click;
             }
+            if (timedEvent.Checked == true)
+            {
+                MyTimer.Start();
+            }
         }
         public void Correct()
         {
             TableLayoutPanel correct = new TableLayoutPanel();
             correct.Dock = DockStyle.Fill;
             correct.BackColor = Color.LightGreen;
+            MyTimer.Interval = 8000;
             this.Controls.Add(correct);
         }
         public void Incorrect()
@@ -263,6 +297,7 @@ namespace QuizzApp
             TableLayoutPanel incorrect = new TableLayoutPanel();
             incorrect.Dock = DockStyle.Fill;
             incorrect.BackColor = Color.Coral;
+            MyTimer.Interval = 8000;
             this.Controls.Add(incorrect);
         }
         public void Result()
@@ -315,7 +350,7 @@ namespace QuizzApp
             });
             foreach (var button in result.Controls.OfType<Button>())
             {
-                //button.Click += restart_Click;
+                button.Click += restart_Click;
             }
         }
         private void button_Click(object sender, EventArgs e)
@@ -360,9 +395,10 @@ namespace QuizzApp
                 GUI(counter);
             }
         }
-        /*
+        
         private async void restart_Click(object sender, EventArgs e)
         {
+            // restart game same game mode with new questions
             if (Score > highscore)
             {
                 highscore = Score;
@@ -371,17 +407,67 @@ namespace QuizzApp
             {
                 Score = 0;
                 counter = 0;
+                MyTimer.Interval = 8000;
                 QuizEngine.roots.Clear();
-                var quizzPlay = QuizEngine.Main();
+                var quizzPlay = QuizEngine.Main(storedSeed);
                 await Task.WhenAll(quizzPlay);
                 GUI(counter);
             }
             else
             {
+                Application.Restart();
+                /*
                 // go to main menu
+                this.Controls.Clear();
+                TableLayoutPanel mainMenu = new TableLayoutPanel()
+                {
+                    RowCount = 2,
+                    Dock = DockStyle.Fill,
+                    BackColor = Color.WhiteSmoke
+                };
+
+                mainMenu.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
+                mainMenu.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
+                mainMenu.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
+
+                mainMenu.Controls.Add(
+                    new Label() { Text = "Quiz Main Menu", Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill }, 0, 0);
+
+                TableLayoutPanel subMenu = new TableLayoutPanel()
+                {
+                    RowCount = 2,
+                    Dock = DockStyle.Fill,
+                    BackColor = Color.WhiteSmoke
+                };
+
+                subMenu.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                subMenu.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+
+                subMenu.Controls.Add(new Button()
+                {
+                    Text = "Solo Campaign",
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill,
+                    FlatStyle = FlatStyle.Flat,
+                    BackColor = Color.WhiteSmoke,
+                    FlatAppearance =
+                        { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
+                }, 0, 0);
+                subMenu.Controls.Add(new Button()
+                {
+                    Text = "2 Player Co-Op",
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill,
+                    FlatStyle = FlatStyle.Flat,
+                    BackColor = Color.WhiteSmoke,
+                    FlatAppearance =
+                        { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
+                }, 1, 0);
+                mainMenu.Controls.Add(subMenu, 0, 1);
+                */
             }
         }
-        */
+        
 
         // console for testing
         [DllImport("kernel32.dll", SetLastError = true)]
