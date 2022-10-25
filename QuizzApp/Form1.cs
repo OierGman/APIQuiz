@@ -9,6 +9,8 @@ namespace QuizzApp
         int counter = 0;
         int Score = 0;
         int highscore = 0;
+        bool twoplayer = false;
+        bool twoplayerresult = false;
         string storedSeed;
         PictureBox pictureBox1 = new PictureBox();
         System.Windows.Forms.Timer MyTimer = new System.Windows.Forms.Timer();
@@ -59,8 +61,7 @@ namespace QuizzApp
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            Controls.Remove(button1);
-            Controls.Remove(button2);
+            this.Controls.Clear();
             //string seed = "amount="+numericUpDown1.Value+"&"+
             string seed = QuizStringStart();
             var quizzPlay = QuizEngine.Main(seed);
@@ -107,9 +108,39 @@ namespace QuizzApp
                 }
             }
         }
-        private void button2_Click(object sender, EventArgs e)
+        private async void button2_Click(object sender, EventArgs e)
         {
+            this.Controls.Clear();
+            twoplayer = true;
 
+            TableLayoutPanel QuizContainer = new TableLayoutPanel()
+            {
+                RowCount = 3,
+                Dock = DockStyle.Fill
+            };
+            this.Controls.Add(QuizContainer);
+            QuizContainer.Dock = DockStyle.Fill;
+
+            QuizContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+
+            QuizContainer.Controls.Add(
+                new Label() { Text = "Ready Player 1", Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill }, 0, 0);
+
+            //string seed = "amount="+numericUpDown1.Value+"&"+
+            string seed = QuizStringStart();
+            var quizzPlay = QuizEngine.Main(seed);
+            await Task.WhenAll(quizzPlay);
+
+            System.Threading.Thread.Sleep(5000);
+
+            try
+            {
+                GUI(counter);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void QuizGetCategories()
@@ -174,7 +205,7 @@ namespace QuizzApp
 
             TableLayoutPanel QuizContainer = new TableLayoutPanel()
             {
-                RowCount = 2,
+                RowCount = 3,
                 Dock = DockStyle.Fill
             };
             this.Controls.Add(QuizContainer);
@@ -211,7 +242,7 @@ namespace QuizzApp
             {
                 AnsContainer.Controls.Add(new Button()
                 {
-                    Text = QuizEngine.roots[counter].correct_answer,
+                    Text = HttpUtility.HtmlDecode(QuizEngine.roots[counter].correct_answer),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
@@ -222,7 +253,7 @@ namespace QuizzApp
 
                 AnsContainer.Controls.Add(new Button()
                 {
-                    Text = QuizEngine.roots[counter].incorrect_answers[0],
+                    Text = HttpUtility.HtmlDecode(QuizEngine.roots[counter].incorrect_answers[0]),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
@@ -233,7 +264,7 @@ namespace QuizzApp
 
                 AnsContainer.Controls.Add(new Button()
                 {
-                    Text = QuizEngine.roots[counter].incorrect_answers[1],
+                    Text = HttpUtility.HtmlDecode(QuizEngine.roots[counter].incorrect_answers[1]),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
@@ -244,7 +275,7 @@ namespace QuizzApp
 
                 AnsContainer.Controls.Add(new Button()
                 {
-                    Text = QuizEngine.roots[counter].incorrect_answers[2],
+                    Text = HttpUtility.HtmlDecode(QuizEngine.roots[counter].incorrect_answers[2]),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
@@ -281,6 +312,7 @@ namespace QuizzApp
             {
                 button.Click += button_Click;
             }
+
             if (timedEvent.Checked == true)
             {
                 MyTimer.Stop();
@@ -359,7 +391,7 @@ namespace QuizzApp
                 button.Click += restart_Click;
             }
         }
-        private void button_Click(object sender, EventArgs e)
+        private async void button_Click(object sender, EventArgs e)
         {
             if (((Button)sender).Text == QuizEngine.roots[counter].correct_answer)
             {
@@ -416,7 +448,52 @@ namespace QuizzApp
             {
                 this.Controls.Clear();
                 MyTimer.Stop();
-                Result();
+                if (twoplayer == false)
+                {
+                    if (twoplayerresult == false)
+                    {
+                        Result();
+                    }
+                    else
+                    {
+                        // jamies method
+                    }
+                }
+                else
+                {
+                    this.Controls.Clear();
+                    twoplayer = false;
+                    twoplayerresult = true;
+
+                    TableLayoutPanel QuizContainer = new TableLayoutPanel()
+                    {
+                        RowCount = 3,
+                        Dock = DockStyle.Fill
+                    };
+                    this.Controls.Add(QuizContainer);
+                    QuizContainer.Dock = DockStyle.Fill;
+
+                    QuizContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+
+                    QuizContainer.Controls.Add(
+                        new Label() { Text = "Ready Player 2", Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill }, 0, 0);
+
+                    //string seed = "amount="+numericUpDown1.Value+"&"+
+                    string seed = QuizStringStart();
+                    var quizzPlay = QuizEngine.Main(seed);
+                    await Task.WhenAll(quizzPlay);
+
+                    System.Threading.Thread.Sleep(5000);
+
+                    try
+                    {
+                        GUI(counter);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
             }
             else
             {
