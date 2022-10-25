@@ -655,8 +655,13 @@ namespace QuizzApp
                 counter = 0;
                 SuddenDeath();
 
+                string workingDirectory = Environment.CurrentDirectory;
+                string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+
+                string FileName = projectDirectory + "/Resources/DangerAlarmSoundEffect.mp3";
+
                 WMPLib.WindowsMediaPlayer wplayer = new WMPLib.WindowsMediaPlayer();
-                wplayer.URL = @"C:\Users\jpinn\source\repos\a1-2-thecodemonkees\QuizzApp\Resources\DangerAlarmSoundEffect.mp3";
+                wplayer.URL = FileName;
                 wplayer.controls.play();
             }
             else
