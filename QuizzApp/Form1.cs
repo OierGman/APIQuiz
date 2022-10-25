@@ -9,6 +9,7 @@ namespace QuizzApp
         int counter = 0;
         int Score = 0;
         int highscore = 0;
+        int Score1 = 0;
         bool twoplayer = false;
         bool twoplayerresult = false;
         string storedSeed;
@@ -405,22 +406,22 @@ namespace QuizzApp
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            if (Score > highscore)
+            if (Score > Score1)
             {
                 result.Controls.Add(
-                new Label() { Text = "Player 2 Wins: " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
+                new Label() { Text = "Player 2 Wins: " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill }, 0, 1);
                 this.Controls.Add(result);
             }
-            else if (Score < highscore)
+            else if (Score < Score1)
             {
                 result.Controls.Add(
-                new Label() { Text = "Player 1 Wins: " + highscore.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
+                new Label() { Text = "Player 1 Wins: " + Score1.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill }, 0, 1);
                 this.Controls.Add(result);
             }
             else
             {
                 result.Controls.Add(
-                    new Label() { Text = "DRAW!!! - " + highscore.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
+                    new Label() { Text = "DRAW!!! - " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill }, 0, 1);
                 this.Controls.Add(result);
                 result.Controls.Add(new Button()
                 {
@@ -432,7 +433,7 @@ namespace QuizzApp
                     
                     FlatAppearance =
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
-                });
+                }, 0, 2);
             }
             result.Controls.Add(new Button()
             {
@@ -443,7 +444,7 @@ namespace QuizzApp
                 BackColor = Color.WhiteSmoke,
                 FlatAppearance =
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
-            });
+            }, 0, 3);
             foreach (var button in result.Controls.OfType<Button>())
             {
                 button.Click += twoPlayerrestart_Click;
@@ -523,7 +524,8 @@ namespace QuizzApp
                     this.Controls.Clear();
                     twoplayer = false;
                     twoplayerresult = true;
-                    highscore = Score;
+                    Score1 = Score;
+                    Score = 0;
 
                     TableLayoutPanel QuizContainer = new TableLayoutPanel()
                     {
@@ -592,7 +594,7 @@ namespace QuizzApp
                 this.Controls.Clear();
                 TableLayoutPanel mainMenu = new TableLayoutPanel()
                 {
-                    RowCount = 2,
+                    RowCount = 3,
                     Dock = DockStyle.Fill,
                     BackColor = Color.WhiteSmoke
                 };
