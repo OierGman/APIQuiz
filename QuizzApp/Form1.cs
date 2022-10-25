@@ -4,6 +4,8 @@ using System.Runtime.InteropServices;
 using System.Web;
 using QuizzApp.Properties;
 using WMPLib;
+using System.Speech.Synthesis;
+
 
 namespace QuizzApp
 {
@@ -214,7 +216,11 @@ namespace QuizzApp
 
             StringWriter writer = new StringWriter();
             HttpUtility.HtmlDecode(QuizEngine.roots[counter].question, writer);
+            SpeechSynthesizer synth = new SpeechSynthesizer();
+            // Configure the audio output.   
+            synth.SetOutputToDefaultAudioDevice();
             question.Text = writer.ToString();
+            synth.Speak(question.Text);
 
             TableLayoutPanel QuizContainer = new TableLayoutPanel()
             {
