@@ -217,11 +217,7 @@ namespace QuizzApp
             StringWriter writer = new StringWriter();
             HttpUtility.HtmlDecode(QuizEngine.roots[counter].question, writer);
             SpeechSynthesizer synth = new SpeechSynthesizer();
-            // Configure the audio output.   
-            synth.SetOutputToDefaultAudioDevice();
-            question.Text = writer.ToString();
-            synth.Speak(question.Text);
-
+            
             TableLayoutPanel QuizContainer = new TableLayoutPanel()
             {
                 RowCount = 3,
@@ -330,6 +326,13 @@ namespace QuizzApp
             foreach (var button in AnsContainer.Controls.OfType<Button>())
             {
                 button.Click += button_Click;
+            }
+            if(audioCheckBox.Checked == true)
+            {
+                // Configure the audio output.   
+                synth.SetOutputToDefaultAudioDevice();
+                question.Text = writer.ToString();
+                synth.Speak(question.Text);
             }
 
             if (timedEvent.Checked == true)
