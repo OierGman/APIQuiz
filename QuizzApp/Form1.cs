@@ -391,6 +391,65 @@ namespace QuizzApp
                 button.Click += restart_Click;
             }
         }
+
+        public void TwoPlayerResult()
+        {
+            TableLayoutPanel result = new TableLayoutPanel()
+            {
+                RowCount = 4,
+                Dock = DockStyle.Fill,
+                BackColor = Color.WhiteSmoke
+            };
+
+            result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            result.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            if (Score > highscore)
+            {
+                result.Controls.Add(
+                new Label() { Text = "Player 2 Wins: " + Score.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
+                this.Controls.Add(result);
+            }
+            else if (Score < highscore)
+            {
+                result.Controls.Add(
+                new Label() { Text = "Player 1 Wins: " + highscore.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
+                this.Controls.Add(result);
+            }
+            else
+            {
+                result.Controls.Add(
+                    new Label() { Text = "DRAW!!! - " + highscore.ToString(), Font = new Font("Arial", 20), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill });
+                this.Controls.Add(result);
+
+                result.Controls.Add(new Button()
+                {
+                    Text = "Go To Sudden Death Rounds",
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill,
+                    FlatStyle = FlatStyle.Flat,
+                    BackColor = Color.WhiteSmoke,
+                    FlatAppearance =
+                        { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
+                });
+            }
+            result.Controls.Add(new Button()
+            {
+                Text = "Back to Main Menu",
+                TextAlign = ContentAlignment.MiddleCenter,
+                Dock = DockStyle.Fill,
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.WhiteSmoke,
+                FlatAppearance =
+                        { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
+            });
+            foreach (var button in result.Controls.OfType<Button>())
+            {
+                button.Click += twoPlayerrestart_Click;
+            }
+        }
+
         private async void button_Click(object sender, EventArgs e)
         {
             if (((Button)sender).Text == QuizEngine.roots[counter].correct_answer)
@@ -456,6 +515,7 @@ namespace QuizzApp
                     }
                     else
                     {
+                        TwoPlayerResult();
                         // jamies method
                     }
                 }
@@ -464,6 +524,7 @@ namespace QuizzApp
                     this.Controls.Clear();
                     twoplayer = false;
                     twoplayerresult = true;
+                    highscore = Score;
 
                     TableLayoutPanel QuizContainer = new TableLayoutPanel()
                     {
@@ -571,7 +632,24 @@ namespace QuizzApp
                 */
             }
         }
-        
+
+        private async void twoPlayerrestart_Click(object sender, EventArgs e)
+        {
+            // restart game same game mode with new questions
+            if (((Button)sender).Text == "Go To Sudden Death Rounds")
+            {
+                Score = 0;
+                highscore = 0;
+                counter = 0;
+                // jamie method
+
+            }
+            else
+            {
+                Application.Restart();
+            }
+        }
+
 
         // console for testing
         [DllImport("kernel32.dll", SetLastError = true)]
