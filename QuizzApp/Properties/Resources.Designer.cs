@@ -59,5 +59,15 @@ namespace QuizzApp.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Danger_Alarm_Sound_Effect {
+            get {
+                object obj = ResourceManager.GetObject("Danger_Alarm_Sound_Effect", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

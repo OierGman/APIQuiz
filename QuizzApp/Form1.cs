@@ -1,5 +1,9 @@
+using System.Media;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Web;
+using QuizzApp.Properties;
+using WMPLib;
 
 namespace QuizzApp
 {
@@ -441,7 +445,7 @@ namespace QuizzApp
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
                     BackColor = Color.WhiteSmoke,
-                    
+
                     FlatAppearance =
                         { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Green }
                 }, 0, 2);
@@ -654,7 +658,6 @@ namespace QuizzApp
                 */
             }
         }
-
         private async void twoPlayerrestart_Click(object sender, EventArgs e)
         {
             // restart game same game mode with new questions
@@ -665,6 +668,10 @@ namespace QuizzApp
                 highscore = 0;
                 counter = 0;
                 SuddenDeath();
+
+                WMPLib.WindowsMediaPlayer wplayer = new WMPLib.WindowsMediaPlayer();
+                wplayer.URL = @"C:\Users\jpinn\source\repos\a1-2-thecodemonkees\QuizzApp\Resources\DangerAlarmSoundEffect.mp3";
+                wplayer.controls.play();
             }
             else
             {
