@@ -263,7 +263,7 @@
             // 
             this.audioCheckBox.AutoSize = true;
             this.audioCheckBox.Location = new System.Drawing.Point(2, 192);
-            this.audioCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.audioCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.audioCheckBox.Name = "audioCheckBox";
             this.audioCheckBox.Size = new System.Drawing.Size(94, 19);
             this.audioCheckBox.TabIndex = 12;
