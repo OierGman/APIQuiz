@@ -30,6 +30,10 @@ namespace QuizzApp
         }
         private async void Form1_Load(object sender, EventArgs e)
         {
+            //Picture Questions Initialisation
+            List<string> AcropolisIncorrectAnswers = new List<string> { "London", "Paris", "Luxemburg" };
+            PictureQuestions.PictureQuestionList.Add(new PictureQuestions("Image", "Picture Round", "Easy", "Which city is this iconic landmark located in?", "Athens", AcropolisIncorrectAnswers));
+
             CreateLabel();
             // task to get categories.
             var categoriesTask = QuizEngine.GetCategoriesTask();
