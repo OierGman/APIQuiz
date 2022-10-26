@@ -19,6 +19,18 @@ namespace QuizzApp
         public string Question;
         public string CorrectAnswer;
         public List<string> IncorrectAnswers;
-        
+
+        //Constructors
+        public PictureQuestions(Image image, string category, string type, string difficulty, string question, string correctAnswer, List<string> incorrectAnswers)
+        {
+            this.Image = image;
+            this.Category = category;
+            this.Type = type;
+            this.Difficulty = difficulty;
+            this.Question = question;
+            this.CorrectAnswer = correctAnswer;
+            this.IncorrectAnswers = incorrectAnswers;
+        }
+
     }
 }
