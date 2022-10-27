@@ -5,7 +5,7 @@ using System.Web;
 using QuizzApp.Properties;
 using WMPLib;
 using System.Speech.Synthesis;
-
+using System.Security.Cryptography;
 
 namespace QuizzApp
 {
@@ -181,7 +181,15 @@ namespace QuizzApp
             {
                 difficultyCheckedListBox.SelectedIndex = 0;
                 questionDifficulty = "difficulty=" + difficultyCheckedListBox.SelectedItem;
-                categoriesCheckedListBox.SelectedIndex = 6;
+                /*int[] ints = new int[] { 2, 6, 7, 19, 20, 22 };
+                String[] Catergories = { "Entertainment: Video Games", "Entertainment: Board Games", "Animals", "Entertainment: Comics", "Entertainment: Cartoons & Anime" };
+                categoriesCheckedListBox.SelectedIndex = Convert.ToInt32(ints);
+                new int[] { 2, 6, 7, 19, 20, 22 };
+                Random RandomNumber = new Random();
+                int RandNum = RandomNumber.Next(0,5);
+                categoriesCheckedListBox.SelectedIndex = RandNum;
+                categoriesCheckedListBox.SelectedItem =Catergories[RandNum];*/
+                questionCategory = "category=" + categoriesCheckedListBox.SelectedItem;
             }
             if (difficultyCheckedListBox.SelectedIndex >= 0)
             {
