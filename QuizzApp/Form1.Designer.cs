@@ -45,6 +45,7 @@
             this.difficultyCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.label5 = new System.Windows.Forms.Label();
             this.audioCheckBox = new System.Windows.Forms.CheckBox();
+            this.KidQuizCheckBox = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -161,6 +162,8 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 64F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 124F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 299F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(408, 706);
             this.tableLayoutPanel2.TabIndex = 11;
             // 
@@ -249,8 +252,7 @@
             this.difficultyCheckedListBox.Items.AddRange(new object[] {
             "easy",
             "medium",
-            "hard",
-            "For Kids"});
+            "hard"});
             this.difficultyCheckedListBox.Location = new System.Drawing.Point(5, 6);
             this.difficultyCheckedListBox.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.difficultyCheckedListBox.Name = "difficultyCheckedListBox";
@@ -280,6 +282,17 @@
             this.audioCheckBox.Text = "Text to audio";
             this.audioCheckBox.UseVisualStyleBackColor = true;
             // 
+            // KidQuizCheckBox
+            // 
+            this.KidQuizCheckBox.AutoSize = true;
+            this.KidQuizCheckBox.Location = new System.Drawing.Point(112, 426);
+            this.KidQuizCheckBox.Name = "KidQuizCheckBox";
+            this.KidQuizCheckBox.Size = new System.Drawing.Size(136, 36);
+            this.KidQuizCheckBox.TabIndex = 3;
+            this.KidQuizCheckBox.Text = "Kid Quiz";
+            this.KidQuizCheckBox.UseVisualStyleBackColor = true;
+            this.KidQuizCheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
@@ -287,6 +300,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1485, 960);
+            this.Controls.Add(this.KidQuizCheckBox);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -302,6 +316,7 @@
             this.tableLayoutPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.questionAmountNumericUpDown)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -323,5 +338,6 @@
         private TableLayoutPanel tableLayoutPanel2;
         private CheckedListBox questionStylesCheckedListBox;
         private CheckBox audioCheckBox;
+        private CheckBox KidQuizCheckBox;
     }
 }

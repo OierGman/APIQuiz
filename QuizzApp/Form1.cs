@@ -20,6 +20,7 @@ namespace QuizzApp
         bool twoplayerresult = false;
         string storedSeed;
         bool suddenD = false;
+        bool KidQuiz;
         PictureBox pictureBox1 = new PictureBox();
         System.Windows.Forms.Timer MyTimer = new System.Windows.Forms.Timer();
 
@@ -176,10 +177,11 @@ namespace QuizzApp
             {
                 questionCategory = "category=" + categoriesCheckedListBox.SelectedIndex;
             }
-            if (difficultyCheckedListBox.SelectedIndex == 3)
+            if (KidQuiz == true)
             {
                 difficultyCheckedListBox.SelectedIndex = 0;
                 questionDifficulty = "difficulty=" + difficultyCheckedListBox.SelectedItem;
+                categoriesCheckedListBox.SelectedIndex = 6;
             }
             if (difficultyCheckedListBox.SelectedIndex >= 0)
             {
@@ -708,6 +710,14 @@ namespace QuizzApp
         private void difficultyCheckedListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (KidQuizCheckBox.Checked == true)
+            {
+                KidQuiz = true;
+            }
         }
     }
 }
