@@ -176,6 +176,11 @@ namespace QuizzApp
             {
                 questionCategory = "category=" + categoriesCheckedListBox.SelectedIndex;
             }
+            if (difficultyCheckedListBox.SelectedIndex == 3)
+            {
+                difficultyCheckedListBox.SelectedIndex = 0;
+                questionDifficulty = "difficulty=" + difficultyCheckedListBox.SelectedItem;
+            }
             if (difficultyCheckedListBox.SelectedIndex >= 0)
             {
                 questionDifficulty = "difficulty=" + difficultyCheckedListBox.SelectedItem;
@@ -700,6 +705,9 @@ namespace QuizzApp
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
+        private void difficultyCheckedListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }
