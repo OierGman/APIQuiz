@@ -181,15 +181,11 @@ namespace QuizzApp
             {
                 difficultyCheckedListBox.SelectedIndex = 0;
                 questionDifficulty = "difficulty=" + difficultyCheckedListBox.SelectedItem;
-                /*int[] ints = new int[] { 2, 6, 7, 19, 20, 22 };
-                String[] Catergories = { "Entertainment: Video Games", "Entertainment: Board Games", "Animals", "Entertainment: Comics", "Entertainment: Cartoons & Anime" };
-                categoriesCheckedListBox.SelectedIndex = Convert.ToInt32(ints);
-                new int[] { 2, 6, 7, 19, 20, 22 };
-                Random RandomNumber = new Random();
-                int RandNum = RandomNumber.Next(0,5);
-                categoriesCheckedListBox.SelectedIndex = RandNum;
-                categoriesCheckedListBox.SelectedItem =Catergories[RandNum];*/
-                questionCategory = "category=" + categoriesCheckedListBox.SelectedItem;
+                if (categoriesCheckedListBox.SelectedIndex >=0)
+                {
+                    int index = categoriesCheckedListBox.SelectedIndex = 1;
+                    questionCategory = "category=" + index;
+                }
             }
             if (difficultyCheckedListBox.SelectedIndex >= 0)
             {
