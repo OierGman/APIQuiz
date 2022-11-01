@@ -65,7 +65,7 @@ public partial class Form1 : Form
         }
     }
 
-    private async void button1_Click(object sender, EventArgs e)
+    private async void playerOne_Click(object sender, EventArgs e)
     {
         //string seed = "amount="+numericUpDown1.Value+"&"+
         QuizStringStart();
@@ -107,7 +107,7 @@ public partial class Form1 : Form
                 questionStylesCheckedListBox.SetItemChecked(i, false);
     }
 
-    private void button2_Click(object sender, EventArgs e)
+    private void playerTwo_Click(object sender, EventArgs e)
     {
         // get user options for API request
         QuizStringStart();
