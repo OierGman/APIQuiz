@@ -56,7 +56,7 @@ namespace QuizzApp
             Questions.Root myDeserializedClass = JsonSerializer.Deserialize<Questions.Root>(responseBody);
             foreach (var x in myDeserializedClass.trivia_categories)
             {
-                CategoriesList.Add(x);
+                 CategoriesList.Add(x);
             }
         }
         public static async Task SuddenDeathTask()

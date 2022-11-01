@@ -69,8 +69,8 @@ public partial class Form1 : Form
     {
         Controls.Clear();
         //string seed = "amount="+numericUpDown1.Value+"&"+
-        var seed = QuizStringStart();
-        var quizzPlay = QuizEngine.Main(seed);
+        QuizStringStart();
+        var quizzPlay = QuizEngine.Main(_storedSeed);
         await Task.WhenAll(quizzPlay);
         try
         {
@@ -158,28 +158,23 @@ public partial class Form1 : Form
         foreach (var x in QuizEngine.CategoriesList) categoriesCheckedListBox.Items.Add(x.name);
     }
 
-    private string QuizStringStart()
+    private void QuizStringStart()
     {
         var questionAmount = "amount=" + questionAmountNumericUpDown.Value;
         var questionCategory = "";
         var questionDifficulty = "";
         var questionStyle = "";
         if (categoriesCheckedListBox.SelectedIndex >= 0)
-            questionCategory = "category=" + categoriesCheckedListBox.SelectedIndex;
+            questionCategory = "category=" + (categoriesCheckedListBox.SelectedIndex + 9);
         if (difficultyCheckedListBox.SelectedIndex >= 0)
             questionDifficulty = "difficulty=" + difficultyCheckedListBox.SelectedItem;
         if (questionStylesCheckedListBox.SelectedIndex == 1)
             questionStyle = "type=multiple";
         else if (questionStylesCheckedListBox.SelectedIndex == 2) questionStyle = "type=boolean";
-        if (timedEvent.Checked)
-        {
-            // execute timed events
-        }
 
         var seed = questionAmount + "&" + questionCategory + "&" + questionDifficulty + "&" +
                    questionStyle; // add timed event
         _storedSeed = seed;
-        return seed;
     }
 
     private void CreateLabel()
@@ -197,6 +192,8 @@ public partial class Form1 : Form
 
     public void GUI(int counter)
     {
+        //QuizEngine.roots.Clear();
+        //QuizGetCategories();
         Controls.Clear();
 
         var synth = new SpeechSynthesizer();
