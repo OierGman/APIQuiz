@@ -67,19 +67,20 @@ public partial class Form1 : Form
 
     private async void button1_Click(object sender, EventArgs e)
     {
-        Controls.Clear();
         //string seed = "amount="+numericUpDown1.Value+"&"+
         QuizStringStart();
         var quizzPlay = QuizEngine.Main(_storedSeed);
         await Task.WhenAll(quizzPlay);
-        try
-        {
-            GUI(_counter);
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message);
-        }
+        
+            if (QuizEngine.roots.Count == 0)
+            {
+                MessageBox.Show("Not enough questions, try again!");
+            } 
+            else
+            {
+                Controls.Clear(); 
+                GUI(_counter);
+            }
     }
 
     // category checked list allowing 1 checked box at a time.
